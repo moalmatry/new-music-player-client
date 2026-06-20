@@ -102,7 +102,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#000000',
     paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   scrollContent: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#3E3E3E',
+    backgroundColor: '#1C1C1E',
   },
   sectionTitle: {
     color: '#FFF',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   recentCard: {
     width: RECENT_CARD_WIDTH,
     height: 56,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#1C1C1E',
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   recentArt: {
     width: 56,
     height: 56,
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2C2C2E',
   },
   recentTextContainer: {
     flex: 1,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     width: 145,
     height: 145,
     borderRadius: 6,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#1C1C1E',
     marginBottom: 8,
   },
   madeForTitle: {

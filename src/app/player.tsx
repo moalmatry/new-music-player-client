@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -19,27 +19,32 @@ import Animated, {
   withTiming,
   runOnJS,
 } from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePlayer } from '@/context/PlayerContext';
+import { colors, fontsSize, screenPadding } from '@/constants/tokens';
+import { defaultStyles, utilsStyles } from '@/styles';
 
 const { width, height } = Dimensions.get('window');
 
 export default function PlayerScreen() {
   const router = useRouter();
   const { currentTrack, isPlaying, togglePlay, playNext, playPrevious } = usePlayer();
+  const { top, bottom } = useSafeAreaInsets();
   const translateY = useSharedValue(0);
+  const [isFavorite, setIsFavorite] = React.useState(false);
 
   if (!currentTrack) return null;
 
-  // Custom Pan Gesture for dragging down to dismiss
+  // Pan gesture for swiping down to dismiss the modal
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
-      // Track downward swipes (translationY > 0)
       if (event.translationY > 0) {
         translateY.value = event.translationY;
       }
     })
     .onEnd((event) => {
-      // Dismiss if pulled down past 150 or flicked down rapidly (velocityY > 1000)
+      // If the user swipes down more than 150px OR swipes down very fast (velocityY > 1000)
       if (event.translationY > 150 || event.velocityY > 1000) {
         translateY.value = withTiming(height, { duration: 250 }, (finished) => {
           if (finished) {
@@ -47,8 +52,7 @@ export default function PlayerScreen() {
           }
         });
       } else {
-        // Otherwise, spring back to top
-        translateY.value = withSpring(0, { damping: 15 });
+        translateY.value = withSpring(0, { damping: 40 });
       }
     });
 
@@ -56,177 +60,176 @@ export default function PlayerScreen() {
     transform: [{ translateY: translateY.value }],
   }));
 
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <GestureDetector gesture={panGesture}>
-      <Animated.View style={[styles.container, animatedStyle]}>
-        <SafeAreaView style={styles.safeArea}>
-          {/* Drag Indicator */}
-          <View style={styles.dragIndicatorContainer}>
-            <View style={styles.dragIndicator} />
+      <Animated.View style={[styles.overlayContainer, animatedStyle]}>
+        <LinearGradient
+          style={{ flex: 1, paddingHorizontal: screenPadding.horizontal }}
+          colors={['#3E1215', '#000000']}
+        >
+          {/* Top Dismiss Indicator Pill */}
+          <View style={[styles.dismissIndicatorContainer, { top: top + 8 }]}>
+            <View style={styles.dismissIndicator} />
           </View>
 
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
-              <Ionicons name="chevron-down" size={24} color="#FFF" />
-            </TouchableOpacity>
-            <Text style={styles.headerSub}>PLAYING FROM MUSIC CLIENT</Text>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="ellipsis-horizontal" size={24} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Album Art */}
-          <View style={styles.artworkContainer}>
-            <Image
-              source={{ uri: currentTrack.artwork }}
-              style={styles.artwork}
-              contentFit="cover"
-              transition={300}
-            />
-          </View>
-
-          {/* Title & Artist & Heart */}
-          <View style={styles.metaContainer}>
-            <View style={styles.textContainer}>
-              <Text numberOfLines={1} style={styles.title}>
-                {currentTrack.title}
-              </Text>
-              <Text numberOfLines={1} style={styles.artist}>
-                {currentTrack.artist}
-              </Text>
-            </View>
-            <TouchableOpacity activeOpacity={0.7}>
-              <Ionicons name="heart-outline" size={28} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Scrub Progress Bar */}
-          <View style={styles.progressContainer}>
-            <View style={styles.progressBarBg}>
-              <View style={[styles.progressBarFill, { width: '38%' }]} />
-              <View style={[styles.progressHandle, { left: '38%' }]} />
-            </View>
-            <View style={styles.timeRow}>
-              <Text style={styles.timeText}>1:24</Text>
-              <Text style={styles.timeText}>3:40</Text>
-            </View>
-          </View>
-
-          {/* Controls */}
-          <View style={styles.controlsRow}>
-            <TouchableOpacity style={styles.controlIcon} activeOpacity={0.7}>
-              <Ionicons name="shuffle" size={24} color="#B3B3B3" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={playPrevious} style={styles.controlIcon} activeOpacity={0.7}>
-              <Ionicons name="play-skip-back-sharp" size={32} color="#FFF" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlay} style={styles.playButton} activeOpacity={0.9}>
-              <Ionicons
-                name={isPlaying ? 'pause' : 'play'}
-                size={30}
-                color="#000"
-                style={{ marginLeft: isPlaying ? 0 : 4 }}
+          <View style={{ flex: 1, marginTop: top + 60, marginBottom: bottom }}>
+            {/* Album Artwork */}
+            <View style={styles.artworkImageContainer}>
+              <Image
+                source={{ uri: currentTrack.artwork }}
+                contentFit="cover"
+                style={styles.artworkImage}
+                transition={300}
               />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={playNext} style={styles.controlIcon} activeOpacity={0.7}>
-              <Ionicons name="play-skip-forward-sharp" size={32} color="#FFF" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.controlIcon} activeOpacity={0.7}>
-              <Ionicons name="repeat" size={24} color="#B3B3B3" />
-            </TouchableOpacity>
-          </View>
+            </View>
 
-          {/* Bottom Toolbar */}
-          <View style={styles.bottomToolbar}>
-            <TouchableOpacity activeOpacity={0.7}>
-              <Ionicons name="laptop-outline" size={20} color="#B3B3B3" />
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7}>
-              <Ionicons name="share-social-outline" size={20} color="#B3B3B3" />
-            </TouchableOpacity>
+            {/* Metadata, Controls & Progress */}
+            <View style={{ flex: 1 }}>
+              <View style={{ marginTop: 'auto' }}>
+                <View style={{ height: 60 }}>
+                  <View style={styles.metaRow}>
+                    <View style={styles.trackTitleContainer}>
+                      <Text numberOfLines={1} style={styles.trackTitleText}>
+                        {currentTrack.title}
+                      </Text>
+                    </View>
+                    <FontAwesome
+                      onPress={toggleFavorite}
+                      name={isFavorite ? 'heart' : 'heart-o'}
+                      size={24}
+                      color={isFavorite ? colors.primary : colors.icon}
+                    />
+                  </View>
+                  <Text numberOfLines={1} style={styles.trackArtistText}>
+                    {currentTrack.artist}
+                  </Text>
+                </View>
+
+                {/* Progress Bar Slider Placeholder */}
+                <View style={styles.progressContainer}>
+                  <View style={styles.progressBarBg}>
+                    <View style={[styles.progressBarFill, { width: '38%' }]} />
+                    <View style={[styles.progressHandle, { left: '38%' }]} />
+                  </View>
+                  <View style={styles.timeRow}>
+                    <Text style={styles.timeText}>1:24</Text>
+                    <Text style={styles.timeText}>3:40</Text>
+                  </View>
+                </View>
+
+                {/* Playback Controls */}
+                <View style={styles.controlsRow}>
+                  <TouchableOpacity style={styles.controlIcon} activeOpacity={0.7}>
+                    <Ionicons name="shuffle" size={24} color="#B3B3B3" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={playPrevious} style={styles.controlIcon} activeOpacity={0.7}>
+                    <Ionicons name="play-skip-back-sharp" size={32} color="#FFF" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={togglePlay} style={styles.playButton} activeOpacity={0.9}>
+                    <Ionicons
+                      name={isPlaying ? 'pause' : 'play'}
+                      size={30}
+                      color="#000"
+                      style={{ marginLeft: isPlaying ? 0 : 4 }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={playNext} style={styles.controlIcon} activeOpacity={0.7}>
+                    <Ionicons name="play-skip-forward-sharp" size={32} color="#FFF" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.controlIcon} activeOpacity={0.7}>
+                    <Ionicons name="repeat" size={24} color="#B3B3B3" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Volume Bar Placeholder */}
+              <View style={styles.volumeContainer}>
+                <Ionicons name="volume-mute" size={20} color={colors.textMuted} />
+                <View style={styles.volumeBarBg}>
+                  <View style={[styles.volumeBarFill, { width: '70%' }]} />
+                </View>
+                <Ionicons name="volume-high" size={20} color={colors.textMuted} />
+              </View>
+
+              <View style={[utilsStyles.centeredRow, { paddingBottom: '5%' }]}>
+                <Ionicons name="repeat-outline" size={24} color={colors.primary} />
+              </View>
+            </View>
           </View>
-        </SafeAreaView>
+        </LinearGradient>
       </Animated.View>
     </GestureDetector>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  overlayContainer: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: 'transparent',
   },
-  safeArea: {
-    flex: 1,
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    paddingTop: Platform.OS === 'android' ? 30 : 0,
-  },
-  dragIndicatorContainer: {
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  dragIndicator: {
-    width: 36,
-    height: 4,
-    backgroundColor: '#404040',
-    borderRadius: 2,
-  },
-  header: {
+  dismissIndicatorContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 40,
-  },
-  headerSub: {
-    color: '#B3B3B3',
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-  },
-  iconButton: {
-    padding: 4,
-  },
-  artworkContainer: {
-    alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+    zIndex: 10,
+  },
+  dismissIndicator: {
+    width: 50,
+    height: 8,
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    opacity: 0.7,
+  },
+  artworkImageContainer: {
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.44,
+    shadowRadius: 11.0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    height: '45%',
     marginVertical: 16,
   },
-  artwork: {
-    width: width - 48,
-    height: width - 48,
-    borderRadius: 8,
-    backgroundColor: '#2A2A2A',
+  artworkImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    borderRadius: 12,
   },
-  metaContainer: {
+  metaRow: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 12,
-    marginBottom: 16,
+    alignItems: 'center',
   },
-  textContainer: {
+  trackTitleContainer: {
     flex: 1,
+    overflow: 'hidden',
     marginRight: 16,
   },
-  title: {
-    color: '#FFF',
+  trackTitleText: {
     fontSize: 22,
     fontWeight: '700',
+    color: '#FFF',
   },
-  artist: {
-    color: '#B3B3B3',
-    fontSize: 15,
-    marginTop: 4,
+  trackArtistText: {
+    fontSize: fontsSize.base,
+    color: colors.textMuted,
+    opacity: 0.8,
+    maxWidth: '90%',
+    marginTop: 6,
   },
   progressContainer: {
+    marginTop: 32,
     marginBottom: 20,
   },
   progressBarBg: {
     height: 4,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 2,
     position: 'relative',
   },
@@ -236,13 +239,13 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   progressHandle: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: '#FFF',
     position: 'absolute',
-    top: -4,
-    transform: [{ translateX: -6 }],
+    top: -3,
+    transform: [{ translateX: -5 }],
   },
   timeRow: {
     flexDirection: 'row',
@@ -250,14 +253,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   timeText: {
-    color: '#B3B3B3',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
   },
   controlsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 30,
     paddingHorizontal: 8,
   },
   controlIcon: {
@@ -271,11 +275,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bottomToolbar: {
+  volumeContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    gap: 12,
+    marginTop: 'auto',
+    marginBottom: 30,
     paddingHorizontal: 8,
+  },
+  volumeBarBg: {
+    flex: 1,
+    height: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 2,
+  },
+  volumeBarFill: {
+    height: '100%',
+    backgroundColor: '#FFF',
+    borderRadius: 2,
   },
 });

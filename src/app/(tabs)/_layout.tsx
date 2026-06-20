@@ -1,28 +1,60 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet } from 'react-native';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { View, StyleSheet, Platform, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { BlurView } from 'expo-blur';
+import * as Haptics from 'expo-haptics';
 import FloatingPlayer from '@/components/FloatingPlayer';
+import { colors, fontsSize } from '@/constants/tokens';
 
 export default function TabsLayout() {
+  const { height } = useWindowDimensions();
+  const isSmallScreen = height < 700;
+
   return (
     <View style={styles.container}>
       <Tabs
+        screenLayout={({ children }) => (
+          <>
+            {children}
+            <FloatingPlayer
+              style={{
+                position: 'absolute',
+                left: 8,
+                right: 8,
+                bottom: isSmallScreen ? '19%' : '16%',
+              }}
+            />
+          </>
+        )}
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: '#FFF',
-          tabBarInactiveTintColor: '#B3B3B3',
-          tabBarStyle: {
-            backgroundColor: '#000000',
-            borderTopColor: '#1E1E1E',
-            borderTopWidth: 1,
-            elevation: 0,
-            shadowOpacity: 0,
-          },
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: '#999',
           tabBarLabelStyle: {
-            fontSize: 11,
+            fontSize: fontsSize.xs,
             fontWeight: '500',
           },
+          tabBarItemStyle: {
+            justifyContent: 'center',
+            paddingTop: Platform.OS === 'android' ? 5 : 0,
+          },
+          tabBarStyle: styles.tabBar,
+          tabBarBackground: () => (
+            <BlurView intensity={80} tint="dark" style={styles.blurView} />
+          ),
+          tabBarButton: ({ style, onPress, children }: any) => (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={style}
+              onPress={(e) => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                if (onPress) onPress(e);
+              }}
+            >
+              {children}
+            </TouchableOpacity>
+          ),
         }}
       >
         <Tabs.Screen
@@ -32,7 +64,7 @@ export default function TabsLayout() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home' : 'home-outline'}
-                size={22}
+                size={20}
                 color={color}
               />
             ),
@@ -45,7 +77,7 @@ export default function TabsLayout() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'search' : 'search-outline'}
-                size={22}
+                size={20}
                 color={color}
               />
             ),
@@ -58,14 +90,13 @@ export default function TabsLayout() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'library' : 'library-outline'}
-                size={22}
+                size={20}
                 color={color}
               />
             ),
           }}
         />
       </Tabs>
-      <FloatingPlayer />
     </View>
   );
 }
@@ -74,5 +105,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+  },
+  tabBar: {
+    position: 'absolute',
+    marginHorizontal: 20,
+    bottom: '7%',
+    left: 20,
+    right: 20,
+    height: 70,
+    elevation: 5,
+    backgroundColor: Platform.OS === 'ios' ? 'transparent' : 'rgba(20, 20, 20, 0.8)',
+    borderRadius: 35,
+    borderTopWidth: 0,
+    paddingBottom: 0,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    paddingTop: Platform.OS === 'ios' ? 10 : 0,
+  },
+  blurView: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 35,
+    backgroundColor: 'transparent',
   },
 });

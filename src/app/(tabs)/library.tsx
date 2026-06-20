@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Platf
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import homeFeed from '@/data/home_feed.json';
+import { colors } from '@/constants/tokens';
 
 export default function LibraryScreen() {
   const playlists = homeFeed.madeForYou;
@@ -55,7 +56,7 @@ export default function LibraryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#000000',
     paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   header: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   filterChipActive: {
-    backgroundColor: '#1DB954',
+    backgroundColor: colors.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   filterChip: {
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#1C1C1E',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 4,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#1C1C1E',
   },
   playlistText: {
     flex: 1,

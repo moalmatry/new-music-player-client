@@ -65,7 +65,7 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#000000',
     paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   header: {
