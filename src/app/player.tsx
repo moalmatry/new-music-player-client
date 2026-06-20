@@ -19,10 +19,9 @@ export default function PlayerScreen() {
     usePlayer();
   const { top, bottom } = useSafeAreaInsets();
   const [isFavorite, setIsFavorite] = React.useState(false);
+  const { imageColors } = useImageColors(currentTrack?.artwork || unKnownTrackImage);
 
   if (!currentTrack) return null;
-
-  const { imageColors } = useImageColors(currentTrack.artwork || unKnownTrackImage);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
