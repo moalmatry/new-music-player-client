@@ -1,0 +1,70 @@
+{
+  "user": {
+    "name": "Alex",
+    "avatar": "https://picsum.photos/id/64/100/100"
+  },
+  "recentlyPlayed": [
+    {
+      "id": "1",
+      "title": "Midnight City",
+      "artist": "M83",
+      "artwork": "https://picsum.photos/id/1025/150/150"
+    },
+    {
+      "id": "2",
+      "title": "Starboy",
+      "artist": "The Weeknd",
+      "artwork": "https://picsum.photos/id/103/150/150"
+    },
+    {
+      "id": "3",
+      "title": "Blinding Lights",
+      "artist": "The Weeknd",
+      "artwork": "https://picsum.photos/id/1043/150/150"
+    },
+    {
+      "id": "4",
+      "title": "Sweater Weather",
+      "artist": "The Neighbourhood",
+      "artwork": "https://picsum.photos/id/1062/150/150"
+    },
+    {
+      "id": "5",
+      "title": "Intro",
+      "artist": "The xx",
+      "artwork": "https://picsum.photos/id/1069/150/150"
+    },
+    {
+      "id": "6",
+      "title": "Ocean Drive",
+      "artist": "Duke Dumont",
+      "artwork": "https://picsum.photos/id/1074/150/150"
+    }
+  ],
+  "madeForYou": [
+    {
+      "id": "playlist_1",
+      "title": "Discover Weekly",
+      "description": "Your weekly mixtape of fresh music.",
+      "artwork": "https://picsum.photos/id/225/300/300"
+    },
+    {
+      "id": "playlist_2",
+      "title": "Release Radar",
+      "description": "Catch all the newest releases from artists you follow.",
+      "artwork": "https://picsum.photos/id/327/300/300"
+    },
+    {
+      "id": "playlist_3",
+      "title": "Chill Vibes",
+      "description": "Unwind with this laidback selection.",
+      "artwork": "https://picsum.photos/id/445/300/300"
+    },
+    {
+      "id": "playlist_4",
+      "title": "Workout Energy",
+      "description": "Pump up your training with high BPM beats.",
+      "artwork": "https://picsum.photos/id/500/300/300"
+    }
+  ]
+}

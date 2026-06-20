@@ -1,0 +1,14 @@
+[
+  { "id": "1", "name": "Pop", "color": "#E11484" },
+  { "id": "2", "name": "Hip-Hop", "color": "#BC59FF" },
+  { "id": "3", "name": "Rock", "color": "#E91E63" },
+  { "id": "4", "name": "Electronic", "color": "#1E90FF" },
+  { "id": "5", "name": "Jazz", "color": "#FF8C00" },
+  { "id": "6", "name": "R&B", "color": "#FF4500" },
+  { "id": "7", "name": "Classical", "color": "#4682B4" },
+  { "id": "8", "name": "Indie", "color": "#2E8B57" },
+  { "id": "9", "name": "Gaming", "color": "#8A2BE2" },
+  { "id": "10", "name": "Workout", "color": "#32CD32" },
+  { "id": "11", "name": "Sleep", "color": "#4B0082" },
+  { "id": "12", "name": "Focus", "color": "#7B68EE" }
+]
