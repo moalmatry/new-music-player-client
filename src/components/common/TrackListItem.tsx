@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { usePlayer, Track } from '@/store/usePlayerStore';
 import { colors, fontsSize } from '@/constants/tokens';
 import { defaultStyles } from '@/styles';
-import { MiniPlayerEqualizer } from './MiniPlayerEqualizer';
+import { MiniPlayerEqualizer } from '../player/MiniPlayerEqualizer';
 import { unKnownTrackImage } from '@/constants/images';
 
 interface TrackListItemProps {

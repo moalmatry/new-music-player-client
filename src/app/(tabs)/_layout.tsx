@@ -3,9 +3,12 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, Platform, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
 import * as Haptics from 'expo-haptics';
-import FloatingPlayer from '@/components/FloatingPlayer';
+import FloatingPlayer from '@/components/player/FloatingPlayer';
 import { colors, fontsSize } from '@/constants/tokens';
+
+const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
 
 export default function TabsLayout() {
   const { height } = useWindowDimensions();
@@ -40,9 +43,20 @@ export default function TabsLayout() {
             paddingTop: Platform.OS === 'android' ? 5 : 0,
           },
           tabBarStyle: styles.tabBar,
-          tabBarBackground: () => (
-            <BlurView intensity={80} tint="dark" style={styles.blurView} />
-          ),
+          tabBarBackground: () => {
+            if (useLiquidGlass) {
+              return (
+                <GlassView
+                  glassEffectStyle="clear"
+                  colorScheme="dark"
+                  style={styles.glassView}
+                />
+              );
+            }
+            return (
+              <BlurView intensity={80} tint="dark" style={styles.blurView} />
+            );
+          },
           tabBarButton: ({ style, onPress, children }: any) => (
             <TouchableOpacity
               activeOpacity={0.7}
@@ -117,6 +131,8 @@ const styles = StyleSheet.create({
     backgroundColor: Platform.OS === 'ios' ? 'transparent' : 'rgba(20, 20, 20, 0.8)',
     borderRadius: 35,
     borderTopWidth: 0,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
     paddingBottom: 0,
     overflow: 'hidden',
     shadowColor: '#000',
@@ -129,5 +145,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     borderRadius: 35,
     backgroundColor: 'transparent',
+  },
+  glassView: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 35,
   },
 });

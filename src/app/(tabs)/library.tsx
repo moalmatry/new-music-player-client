@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import homeFeed from '@/data/home_feed.json';
 import tracksData from '@/data/tracks.json';
 import { colors } from '@/constants/tokens';
-import TrackList from '@/components/TrackList';
+import TrackList from '@/components/common/TrackList';
 
 export default function LibraryScreen() {
   const [activeFilter, setActiveFilter] = useState<'playlists' | 'songs' | 'artists'>('playlists');
