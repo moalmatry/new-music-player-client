@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { styles } from './MiniPlayerEqualizer.styles';
 
 interface AnimatedBarProps {
   isPlaying: boolean;
@@ -60,20 +61,3 @@ export const MiniPlayerEqualizer: React.FC<MiniPlayerEqualizerProps> = ({ isPlay
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    height: 24,
-    gap: 3,
-    position: 'absolute',
-    left: 13,
-    bottom: 13,
-  },
-  bar: {
-    width: 4,
-    backgroundColor: '#ffffff',
-    borderRadius: 2,
-  },
-});

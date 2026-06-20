@@ -1,4 +1,4 @@
-import { colors, fontsSize, screenPadding } from "@/constants/tokens";
+import { colors, screenPadding } from "@/constants/tokens";
 import { usePlayer } from "@/store/usePlayerStore";
 import { useImageColors } from "@/hooks/useImageColors";
 import { utilsStyles } from "@/styles";
@@ -6,12 +6,13 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { unKnownTrackImage } from "@/constants/images";
+import { styles } from "@/styles/screens/player.styles";
 
 export default function PlayerScreen() {
   const { pan, animatedStyle } = useExpandFloatingPlayer();
@@ -167,138 +168,4 @@ export default function PlayerScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: "#000000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  overlayContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-  },
-  dismissIndicatorContainer: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    zIndex: 10,
-  },
-  dismissIndicator: {
-    width: 50,
-    height: 8,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    opacity: 0.7,
-  },
-  artworkImageContainer: {
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.44,
-    shadowRadius: 11.0,
-    flexDirection: "row",
-    justifyContent: "center",
-    height: "45%",
-    marginVertical: 16,
-  },
-  artworkImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    borderRadius: 12,
-  },
-  metaRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  trackTitleContainer: {
-    flex: 1,
-    overflow: "hidden",
-    marginRight: 16,
-  },
-  trackTitleText: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#FFF",
-  },
-  trackArtistText: {
-    fontSize: fontsSize.base,
-    color: colors.textMuted,
-    opacity: 0.8,
-    maxWidth: "90%",
-    marginTop: 6,
-  },
-  progressContainer: {
-    marginTop: 32,
-    marginBottom: 20,
-  },
-  progressBarBg: {
-    height: 4,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 2,
-    position: "relative",
-  },
-  progressBarFill: {
-    height: "100%",
-    backgroundColor: "#FFF",
-    borderRadius: 2,
-  },
-  progressHandle: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#FFF",
-    position: "absolute",
-    top: -3,
-    transform: [{ translateX: -5 }],
-  },
-  timeRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 8,
-  },
-  timeText: {
-    color: colors.textMuted,
-    fontSize: 12,
-  },
-  controlsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
-    marginBottom: 30,
-    paddingHorizontal: 8,
-  },
-  controlIcon: {
-    padding: 8,
-  },
-  playButton: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: "#FFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  volumeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    marginTop: "auto",
-    marginBottom: 30,
-    paddingHorizontal: 8,
-  },
-  volumeBarBg: {
-    flex: 1,
-    height: 4,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 2,
-  },
-  volumeBarFill: {
-    height: "100%",
-    backgroundColor: "#FFF",
-    borderRadius: 2,
-  },
-});
+

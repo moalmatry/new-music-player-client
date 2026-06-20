@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, FlatList, FlatListProps, Text, View } from 'react-native';
+import { FlatList, FlatListProps, Text, View } from 'react-native';
 import { usePlayer, Track } from '@/store/usePlayerStore';
 import { defaultStyles, utilsStyles } from '@/styles';
 import { screenPadding } from '@/constants/tokens';
 import TrackListItem from './TrackListItem';
+import { styles } from './TrackList.styles';
 
 const ItemDivider = () => (
   <View style={[styles.separator, { marginVertical: 9, marginLeft: 64 }]} />
@@ -46,15 +47,3 @@ export default function TrackList({ list, ...props }: TrackListProps) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  emptyContainer: {
-    paddingVertical: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  separator: {
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-});
