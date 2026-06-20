@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
-import ImageColors from 'react-native-image-colors';
+import { useEffect, useState } from "react";
+import ImageColors from "react-native-image-colors";
 
 export interface ThemeColors {
   background: string;
   text: string;
 }
 
-export const useImageColors = (imageUrl: string, fallbackColor: string = '#1C1C1E') => {
+export const useImageColors = (
+  imageUrl: string,
+  fallbackColor: string = "#1C1C1E",
+) => {
   const [colors, setColors] = useState<ThemeColors>({
     background: fallbackColor,
-    text: '#000000',
+    text: "transparent",
   });
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,28 +32,28 @@ export const useImageColors = (imageUrl: string, fallbackColor: string = '#1C1C1
         });
 
         switch (result.platform) {
-          case 'android':
+          case "android":
             setColors({
               background: result.darkVibrant || fallbackColor,
-              text: result.lightMuted || '#000000',
+              text: result.lightMuted || "#000000",
             });
             break;
-          case 'ios':
+          case "ios":
             setColors({
               background: result.background || fallbackColor,
-              text: result.primary || '#000000',
+              text: result.primary || "#000000",
             });
             break;
           default:
             setColors({
               background: result.dominant || fallbackColor,
-              text: '#000000',
+              text: "#000000",
             });
             break;
         }
       } catch (error) {
-        console.error('Error fetching image colors:', error);
-        setColors({ background: fallbackColor, text: '#000000' });
+        console.error("Error fetching image colors:", error);
+        setColors({ background: fallbackColor, text: "#000000" });
       } finally {
         setLoading(false);
       }

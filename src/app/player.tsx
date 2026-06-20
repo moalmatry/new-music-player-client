@@ -1,5 +1,5 @@
 import { colors, fontsSize, screenPadding } from "@/constants/tokens";
-import { usePlayer } from "@/context/PlayerContext";
+import { usePlayer } from "@/store/usePlayerStore";
 import { useImageColors } from "@/hooks/useImageColors";
 import { utilsStyles } from "@/styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList, FlatListProps, Text, View } from 'react-native';
-import { usePlayer, Track } from '@/context/PlayerContext';
+import { usePlayer, Track } from '@/store/usePlayerStore';
 import { defaultStyles, utilsStyles } from '@/styles';
 import { screenPadding } from '@/constants/tokens';
 import TrackListItem from './TrackListItem';

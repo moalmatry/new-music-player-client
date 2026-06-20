@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
-import { usePlayer, Track } from '@/context/PlayerContext';
+import { usePlayer, Track } from '@/store/usePlayerStore';
 import homeFeed from '@/data/home_feed.json';
 import tracksData from '@/data/tracks.json';
 

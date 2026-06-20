@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
-import { usePlayer, Track } from '@/context/PlayerContext';
+import { usePlayer, Track } from '@/store/usePlayerStore';
 import { colors, fontsSize } from '@/constants/tokens';
 import { defaultStyles } from '@/styles';
 import { MiniPlayerEqualizer } from './MiniPlayerEqualizer';

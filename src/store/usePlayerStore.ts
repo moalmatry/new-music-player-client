@@ -1,4 +1,3 @@
-import React from 'react';
 import { create } from 'zustand';
 import tracksData from '../data/tracks.json';
 
@@ -22,7 +21,6 @@ interface PlayerState {
   playPrevious: () => void;
 }
 
-// Create a high-performance Zustand store
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   tracks: tracksData as Track[],
   currentTrack: (tracksData as Track[])[0] || null,
@@ -47,12 +45,6 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   },
 }));
 
-// Export a wrapper hook matching the old Context usage to maintain imports compatibility
 export const usePlayer = () => {
   return usePlayerStore();
 };
-
-// Dummy provider to maintain layout wrapper compatibility
-export function PlayerProvider({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
-}

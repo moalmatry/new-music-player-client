@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, StyleProp, ViewStyle } from '
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { usePlayer } from '@/context/PlayerContext';
+import { usePlayer } from '@/store/usePlayerStore';
 import { unKnownTrackImage } from '@/constants/images';
 
 interface FloatingPlayerProps {
