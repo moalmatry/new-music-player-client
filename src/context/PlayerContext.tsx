@@ -1,15 +1,18 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React from 'react';
+import { create } from 'zustand';
 import tracksData from '../data/tracks.json';
 
 export interface Track {
   id: string;
   url: string;
   title: string;
-  artist: string;
-  artwork: string;
+  artist?: string;
+  artwork?: string;
+  rating?: number;
+  playlist?: string[];
 }
 
-interface PlayerContextType {
+interface PlayerState {
   currentTrack: Track | null;
   isPlaying: boolean;
   tracks: Track[];
@@ -19,66 +22,37 @@ interface PlayerContextType {
   playPrevious: () => void;
 }
 
-const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
-
-export function PlayerProvider({ children }: { children: React.ReactNode }) {
-  const [tracks] = useState<Track[]>(tracksData as Track[]);
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  // Set default track to the first track when initialized
-  useEffect(() => {
-    if (tracks.length > 0 && !currentTrack) {
-      setCurrentTrack(tracks[0]);
-    }
-  }, [tracks, currentTrack]);
-
-  const playTrack = (track: Track) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
-  };
-
-  const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
-  };
-
-  const playNext = () => {
+// Create a high-performance Zustand store
+export const usePlayerStore = create<PlayerState>((set, get) => ({
+  tracks: tracksData as Track[],
+  currentTrack: (tracksData as Track[])[0] || null,
+  isPlaying: false,
+  playTrack: (track) => set({ currentTrack: track, isPlaying: true }),
+  togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
+  playNext: () => {
+    const { tracks, currentTrack } = get();
     if (!currentTrack) return;
     const currentIndex = tracks.findIndex((t) => t.id === currentTrack.id);
     if (currentIndex === -1) return;
     const nextIndex = (currentIndex + 1) % tracks.length;
-    setCurrentTrack(tracks[nextIndex]);
-  };
-
-  const playPrevious = () => {
+    set({ currentTrack: tracks[nextIndex] });
+  },
+  playPrevious: () => {
+    const { tracks, currentTrack } = get();
     if (!currentTrack) return;
     const currentIndex = tracks.findIndex((t) => t.id === currentTrack.id);
     if (currentIndex === -1) return;
     const prevIndex = (currentIndex - 1 + tracks.length) % tracks.length;
-    setCurrentTrack(tracks[prevIndex]);
-  };
+    set({ currentTrack: tracks[prevIndex] });
+  },
+}));
 
-  return (
-    <PlayerContext.Provider
-      value={{
-        currentTrack,
-        isPlaying,
-        tracks,
-        playTrack,
-        togglePlay,
-        playNext,
-        playPrevious,
-      }}
-    >
-      {children}
-    </PlayerContext.Provider>
-  );
-}
+// Export a wrapper hook matching the old Context usage to maintain imports compatibility
+export const usePlayer = () => {
+  return usePlayerStore();
+};
 
-export function usePlayer() {
-  const context = useContext(PlayerContext);
-  if (!context) {
-    throw new Error('usePlayer must be used within a PlayerProvider');
-  }
-  return context;
+// Dummy provider to maintain layout wrapper compatibility
+export function PlayerProvider({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

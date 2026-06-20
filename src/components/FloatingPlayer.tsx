@@ -4,6 +4,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { usePlayer } from '@/context/PlayerContext';
+import { unKnownTrackImage } from '@/constants/images';
 
 interface FloatingPlayerProps {
   style?: StyleProp<ViewStyle>;
@@ -22,7 +23,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
       style={[styles.container, style]}
     >
       <Image
-        source={{ uri: currentTrack.artwork }}
+        source={{ uri: currentTrack.artwork || unKnownTrackImage }}
         style={styles.trackArtWorkImage}
         contentFit="cover"
         transition={200}

@@ -5,13 +5,14 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Platform,
   Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { usePlayer, Track } from '@/context/PlayerContext';
 import homeFeed from '@/data/home_feed.json';
+import tracksData from '@/data/tracks.json';
 
 const { width } = Dimensions.get('window');
 const RECENT_CARD_WIDTH = (width - 32 - 8) / 2; // 2 columns with gaps
@@ -28,15 +29,10 @@ export default function HomeScreen() {
   };
 
   const handlePlayRecentlyPlayed = (item: typeof homeFeed.recentlyPlayed[0]) => {
-    // Map recently played object to Track context model
-    const trackToPlay: Track = {
-      id: item.id,
-      title: item.title,
-      artist: item.artist,
-      artwork: item.artwork,
-      url: `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${item.id}.mp3`, // Mock track URL matching ID
-    };
-    playTrack(trackToPlay);
+    const matchedTrack = (tracksData as Track[]).find(
+      (t) => t.title.toLowerCase() === item.title.toLowerCase()
+    ) || (tracksData as Track[])[0];
+    playTrack(matchedTrack);
   };
 
   return (

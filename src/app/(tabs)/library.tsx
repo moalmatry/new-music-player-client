@@ -1,14 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import homeFeed from '@/data/home_feed.json';
+import tracksData from '@/data/tracks.json';
 import { colors } from '@/constants/tokens';
+import TrackList from '@/components/TrackList';
 
 export default function LibraryScreen() {
+  const [activeFilter, setActiveFilter] = useState<'playlists' | 'songs' | 'artists'>('playlists');
   const playlists = homeFeed.madeForYou;
 
-  const renderItem = ({ item }: { item: typeof playlists[0] }) => (
+  const renderPlaylistRow = ({ item }: { item: typeof playlists[0] }) => (
     <TouchableOpacity style={styles.playlistRow} activeOpacity={0.7}>
       <Image source={{ uri: item.artwork }} style={styles.playlistArt} />
       <View style={styles.playlistText}>
@@ -31,24 +35,51 @@ export default function LibraryScreen() {
       </View>
 
       <View style={styles.filterRow}>
-        <TouchableOpacity style={styles.filterChipActive}>
-          <Text style={styles.filterChipTextActive}>Playlists</Text>
+        <TouchableOpacity
+          onPress={() => setActiveFilter('playlists')}
+          style={activeFilter === 'playlists' ? styles.filterChipActive : styles.filterChip}
+        >
+          <Text style={activeFilter === 'playlists' ? styles.filterChipTextActive : styles.filterChipText}>
+            Playlists
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.filterChip}>
-          <Text style={styles.filterChipText}>Artists</Text>
+        <TouchableOpacity
+          onPress={() => setActiveFilter('songs')}
+          style={activeFilter === 'songs' ? styles.filterChipActive : styles.filterChip}
+        >
+          <Text style={activeFilter === 'songs' ? styles.filterChipTextActive : styles.filterChipText}>
+            Songs
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.filterChip}>
-          <Text style={styles.filterChipText}>Albums</Text>
+        <TouchableOpacity
+          onPress={() => setActiveFilter('artists')}
+          style={activeFilter === 'artists' ? styles.filterChipActive : styles.filterChip}
+        >
+          <Text style={activeFilter === 'artists' ? styles.filterChipTextActive : styles.filterChipText}>
+            Artists
+          </Text>
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={playlists}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
+      {activeFilter === 'playlists' && (
+        <FlatList
+          data={playlists}
+          renderItem={renderPlaylistRow}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+
+      {activeFilter === 'songs' && (
+        <TrackList list={tracksData} />
+      )}
+
+      {activeFilter === 'artists' && (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No artists followed yet.</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -114,7 +145,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 16,
-    paddingBottom: 120, // Add bottom padding for FloatingPlayer
+    paddingBottom: 160,
   },
   playlistRow: {
     flexDirection: 'row',
@@ -142,5 +173,16 @@ const styles = StyleSheet.create({
     color: '#B3B3B3',
     fontSize: 13,
     marginTop: 2,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  emptyText: {
+    color: colors.textMuted,
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

@@ -1,9 +1,8 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PlayerProvider } from '@/context/PlayerContext';
+import { PlayerProvider } from "@/context/PlayerContext";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -11,15 +10,17 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PlayerProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <StatusBar style="light" />
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="player"
               options={{
-                presentation: 'transparentModal',
-                animation: 'slide_from_bottom',
+                presentation: "transparentModal",
+                animation: "slide_from_bottom",
                 headerShown: false,
               }}
             />
