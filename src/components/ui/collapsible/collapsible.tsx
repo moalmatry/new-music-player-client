@@ -2,8 +2,8 @@ import { SymbolView } from 'expo-symbols';
 import { PropsWithChildren, useState } from 'react';
 import { Pressable } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text/themed-text';
+import { ThemedView } from '@/components/themed-view/themed-view';
 import { useTheme } from '@/hooks/use-theme';
 import { styles } from './collapsible.styles';
 

@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import homeFeed from '@/data/home_feed.json';
 import tracksData from '@/data/tracks.json';
 
-import TrackList from '@/components/common/TrackList';
+import TrackList from '@/components/common/TrackList/TrackList';
 import { styles } from '@/styles/screens/library.styles';
 
 export default function LibraryScreen() {

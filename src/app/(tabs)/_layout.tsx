@@ -5,7 +5,7 @@ import { View, Platform, useWindowDimensions, TouchableOpacity } from 'react-nat
 import { BlurView } from 'expo-blur';
 import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
 import * as Haptics from 'expo-haptics';
-import FloatingPlayer from '@/components/player/FloatingPlayer';
+import FloatingPlayer from '@/components/player/FloatingPlayer/FloatingPlayer';
 import { colors, fontsSize } from '@/constants/tokens';
 import { styles } from '@/styles/screens/layout.styles';
 

@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
 import { usePlayer, Track } from '@/store/usePlayerStore';
 import { colors } from '@/constants/tokens';
-import { MiniPlayerEqualizer } from '../player/MiniPlayerEqualizer';
+import { MiniPlayerEqualizer } from '@/components/player/MiniPlayerEqualizer/MiniPlayerEqualizer';
 import { unKnownTrackImage } from '@/constants/images';
 import { styles } from './TrackListItem.styles';
 

@@ -3,7 +3,7 @@ import { FlatList, FlatListProps, Text, View } from 'react-native';
 import { usePlayer, Track } from '@/store/usePlayerStore';
 import { defaultStyles, utilsStyles } from '@/styles';
 import { screenPadding } from '@/constants/tokens';
-import TrackListItem from './TrackListItem';
+import TrackListItem from '../TrackListItem/TrackListItem';
 import { styles } from './TrackList.styles';
 
 const ItemDivider = () => (

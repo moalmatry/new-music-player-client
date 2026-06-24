@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
+import { ThemedText } from '@/components/themed-text/themed-text';
+import { ThemedView } from '@/components/themed-view/themed-view';
 import { styles } from './hint-row.styles';
 
 type HintRowProps = {
