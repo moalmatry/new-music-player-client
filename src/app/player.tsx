@@ -1,7 +1,10 @@
 import { colors, screenPadding } from "@/constants/tokens";
-import { usePlayer } from "@/store/usePlayerStore";
+// 1. استدعاء الـ Store الصحيح اللي بنيناه
+import { unKnownTrackImage } from "@/constants/images";
+import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
 import { utilsStyles } from "@/styles";
+import { styles } from "@/styles/screens/player.styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,17 +13,43 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
-import { unKnownTrackImage } from "@/constants/images";
-import { styles } from "@/styles/screens/player.styles";
+
+// 2. استدعاء الهوك الخاص بحالة الصوت من expo-audio
+import { usePlayerStore } from "@/store/usePlayerStore";
+import { useAudioPlayerStatus } from "expo-audio";
+
+// دالة مساعدة سريعة لتحويل الثواني لصيغة دقائق:ثواني (مثال: 3:45)
+const formatTime = (seconds: number) => {
+  if (isNaN(seconds) || seconds < 0) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+};
 
 export default function PlayerScreen() {
   const { pan, animatedStyle } = useExpandFloatingPlayer();
-  const { currentTrack, isPlaying, togglePlay, playNext, playPrevious } =
-    usePlayer();
   const { top, bottom } = useSafeAreaInsets();
   const [isFavorite, setIsFavorite] = React.useState(false);
-  const { imageColors } = useImageColors(currentTrack?.artwork || unKnownTrackImage);
+
+  // 3. استدعاء الحالة والدوال بأسماء الـ Zustand الفعالة
+  const currentTrack = usePlayerStore((state) => state.currentTrack);
+  const isPlaying = usePlayerStore((state) => state.isPlaying);
+  const player = usePlayerStore((state) => state.player); // استدعاء نسخة المشغل
+  const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
+  const skipToNext = usePlayerStore((state) => state.skipToNext);
+  const skipToPrevious = usePlayerStore((state) => state.skipToPrevious);
+
+  const { imageColors } = useImageColors(
+    currentTrack?.artwork || unKnownTrackImage,
+  );
+
+  // 4. قراءة تقدم الأغنية الحقيقي
+  const status = useAudioPlayerStatus(player!);
+  const currentTime = status?.currentTime || 0;
+  // نتأكد إن المدة مش صفر عشان نتجنب قسمة على صفر
+  const duration = status?.duration || 1;
+  // حساب النسبة المئوية لشريط التقدم (من 0 لـ 100)
+  const progressPercent = Math.min((currentTime / duration) * 100, 100);
 
   if (!currentTrack) return null;
 
@@ -33,7 +62,7 @@ export default function PlayerScreen() {
       <Animated.View style={[styles.overlayContainer, animatedStyle]}>
         <LinearGradient
           style={{ flex: 1, paddingHorizontal: screenPadding.horizontal }}
-          colors={[imageColors.background, '#000000']}
+          colors={[imageColors.background, "#000000"]}
         >
           {/* Top Dismiss Indicator Pill */}
           <View style={[styles.dismissIndicatorContainer, { top: top + 8 }]}>
@@ -69,19 +98,31 @@ export default function PlayerScreen() {
                     />
                   </View>
                   <Text numberOfLines={1} style={styles.trackArtistText}>
-                    {currentTrack.artist || 'Unknown Artist'}
+                    {currentTrack.artist || "Unknown Artist"}
                   </Text>
                 </View>
 
-                {/* Progress Bar Slider Placeholder */}
+                {/* 5. شريط التقدم الديناميكي (Dynamic Progress Bar) */}
                 <View style={styles.progressContainer}>
                   <View style={styles.progressBarBg}>
-                    <View style={[styles.progressBarFill, { width: "38%" }]} />
-                    <View style={[styles.progressHandle, { left: "38%" }]} />
+                    <View
+                      style={[
+                        styles.progressBarFill,
+                        { width: `${progressPercent}%` },
+                      ]}
+                    />
+                    <View
+                      style={[
+                        styles.progressHandle,
+                        { left: `${progressPercent}%` },
+                      ]}
+                    />
                   </View>
                   <View style={styles.timeRow}>
-                    <Text style={styles.timeText}>1:24</Text>
-                    <Text style={styles.timeText}>3:40</Text>
+                    <Text style={styles.timeText}>
+                      {formatTime(currentTime)}
+                    </Text>
+                    <Text style={styles.timeText}>{formatTime(duration)}</Text>
                   </View>
                 </View>
 
@@ -93,8 +134,10 @@ export default function PlayerScreen() {
                   >
                     <Ionicons name="shuffle" size={24} color="#B3B3B3" />
                   </TouchableOpacity>
+
+                  {/* زرار الأغنية السابقة */}
                   <TouchableOpacity
-                    onPress={playPrevious}
+                    onPress={skipToPrevious}
                     style={styles.controlIcon}
                     activeOpacity={0.7}
                   >
@@ -104,8 +147,10 @@ export default function PlayerScreen() {
                       color="#FFF"
                     />
                   </TouchableOpacity>
+
+                  {/* زرار التشغيل والإيقاف */}
                   <TouchableOpacity
-                    onPress={togglePlay}
+                    onPress={togglePlayPause}
                     style={styles.playButton}
                     activeOpacity={0.9}
                   >
@@ -116,8 +161,10 @@ export default function PlayerScreen() {
                       style={{ marginLeft: isPlaying ? 0 : 4 }}
                     />
                   </TouchableOpacity>
+
+                  {/* زرار الأغنية التالية */}
                   <TouchableOpacity
-                    onPress={playNext}
+                    onPress={skipToNext}
                     style={styles.controlIcon}
                     activeOpacity={0.7}
                   >
@@ -127,6 +174,7 @@ export default function PlayerScreen() {
                       color="#FFF"
                     />
                   </TouchableOpacity>
+
                   <TouchableOpacity
                     style={styles.controlIcon}
                     activeOpacity={0.7}
@@ -167,5 +215,3 @@ export default function PlayerScreen() {
     </GestureDetector>
   );
 }
-
-

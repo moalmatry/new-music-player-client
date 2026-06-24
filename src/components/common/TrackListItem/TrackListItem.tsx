@@ -1,20 +1,23 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Image } from 'expo-image';
-import { Entypo } from '@expo/vector-icons';
-import { usePlayer, Track } from '@/store/usePlayerStore';
-import { colors } from '@/constants/tokens';
-import { MiniPlayerEqualizer } from '@/components/player/MiniPlayerEqualizer/MiniPlayerEqualizer';
-import { unKnownTrackImage } from '@/constants/images';
-import { styles } from './TrackListItem.styles';
+import { MiniPlayerEqualizer } from "@/components/player/MiniPlayerEqualizer/MiniPlayerEqualizer";
+import { unKnownTrackImage } from "@/constants/images";
+import { colors } from "@/constants/tokens";
+import { usePlayerStore } from "@/store/usePlayerStore";
+import { Entypo } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { Text, TouchableOpacity, View } from "react-native";
+import { styles } from "./TrackListItem.styles";
 
 interface TrackListItemProps {
   track: Track;
   onTrackSelect: (track: Track) => void;
 }
 
-export default function TrackListItem({ track, onTrackSelect }: TrackListItemProps) {
-  const { currentTrack, isPlaying } = usePlayer();
+export default function TrackListItem({
+  track,
+  onTrackSelect,
+}: TrackListItemProps) {
+  const isPlaying = usePlayerStore((state) => state.isPlaying);
+  const currentTrack = usePlayerStore((state) => state.currentTrack);
   const isActiveTrack = currentTrack?.id === track.id;
 
   return (
@@ -23,7 +26,10 @@ export default function TrackListItem({ track, onTrackSelect }: TrackListItemPro
         <View style={styles.artworkContainer}>
           <Image
             source={{ uri: track.artwork || unKnownTrackImage }}
-            style={[styles.trackWorkImage, { opacity: isActiveTrack ? 0.6 : 1 }]}
+            style={[
+              styles.trackWorkImage,
+              { opacity: isActiveTrack ? 0.6 : 1 },
+            ]}
             contentFit="cover"
             transition={200}
           />
@@ -42,11 +48,15 @@ export default function TrackListItem({ track, onTrackSelect }: TrackListItemPro
               {track.title}
             </Text>
             <Text numberOfLines={1} style={styles.trackArtistText}>
-              {track.artist || 'Unknown Artist'}
+              {track.artist || "Unknown Artist"}
             </Text>
           </View>
           <TouchableOpacity activeOpacity={0.7} style={styles.menuButton}>
-            <Entypo name="dots-three-horizontal" size={18} color={colors.textMuted} />
+            <Entypo
+              name="dots-three-horizontal"
+              size={18}
+              color={colors.textMuted}
+            />
           </TouchableOpacity>
         </View>
       </View>

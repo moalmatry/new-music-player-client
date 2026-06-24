@@ -1,10 +1,9 @@
-import React from 'react';
-import { FlatList, FlatListProps, Text, View } from 'react-native';
-import { usePlayer, Track } from '@/store/usePlayerStore';
-import { defaultStyles, utilsStyles } from '@/styles';
-import { screenPadding } from '@/constants/tokens';
-import TrackListItem from '../TrackListItem/TrackListItem';
-import { styles } from './TrackList.styles';
+import { screenPadding } from "@/constants/tokens";
+import { usePlayerStore } from "@/store/usePlayerStore";
+import { defaultStyles, utilsStyles } from "@/styles";
+import { FlatList, FlatListProps, Text, View } from "react-native";
+import TrackListItem from "../TrackListItem/TrackListItem";
+import { styles } from "./TrackList.styles";
 
 const ItemDivider = () => (
   <View style={[styles.separator, { marginVertical: 9, marginLeft: 64 }]} />
@@ -15,10 +14,9 @@ type TrackListProps = Partial<FlatListProps<Track>> & {
 };
 
 export default function TrackList({ list, ...props }: TrackListProps) {
-  const { playTrack } = usePlayer();
-
+  const loadPlaylist = usePlayerStore((state) => state.loadPlaylist);
   const handleTrackSelect = (track: Track) => {
-    playTrack(track);
+    loadPlaylist(list, list.indexOf(track));
   };
 
   return (
