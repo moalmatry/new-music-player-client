@@ -1,16 +1,13 @@
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { DarkTheme, Stack, ThemeProvider } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AnimatedSplashScreen from "@/components/AnimatedSplashScreen/AnimatedSplashScreen";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider
-        value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        value={DarkTheme}
       >
         <StatusBar style="light" />
         <Stack>

@@ -69,20 +69,20 @@ export const styles = StyleSheet.create({
   },
   progressBarBg: {
     height: 4,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: colors.maximumTrackTintColor,
     borderRadius: 2,
     position: "relative",
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#FFF",
+    backgroundColor: colors.minimumTrackTintColor,
     borderRadius: 2,
   },
   progressHandle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#FFF",
+    backgroundColor: colors.minimumTrackTintColor,
     position: "absolute",
     top: -3,
     transform: [{ translateX: -5 }],

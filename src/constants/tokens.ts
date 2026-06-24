@@ -4,8 +4,8 @@ export const colors = {
   text: '#ffffff', // White text
   textMuted: '#9ca3af', // Gray muted text
   icon: '#ffffff', // White icons
-  maximumTrackTintColor: 'rgba(255, 255, 255, 0.4)',
-  minimumTrackTintColor: 'rgba(255, 255, 255, 0.6)',
+  maximumTrackTintColor: '#cccccc',
+  minimumTrackTintColor: '#ffffff',
 };
 
 export const fontsSize = {
