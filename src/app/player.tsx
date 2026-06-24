@@ -15,6 +15,7 @@ import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { useAudioPlayerStatus } from "expo-audio";
 
@@ -189,18 +190,11 @@ export default function PlayerScreen() {
 
               {/* Volume Bar Placeholder */}
               <View style={styles.volumeContainer}>
-                <Ionicons
-                  name="volume-mute"
-                  size={20}
-                  color={colors.textMuted}
-                />
-                <View style={styles.volumeBarBg}>
-                  <View style={[styles.volumeBarFill, { width: "70%" }]} />
-                </View>
-                <Ionicons
-                  name="volume-high"
-                  size={20}
-                  color={colors.textMuted}
+                <PlayerVolumeBar
+                  style={{
+                    marginTop: "auto",
+                    marginBottom: 30,
+                  }}
                 />
               </View>
 

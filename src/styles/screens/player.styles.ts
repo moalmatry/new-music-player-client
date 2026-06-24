@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colors, fontsSize } from '@/constants/tokens';
+import { colors, fontsSize } from "@/constants/tokens";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   loadingContainer: {
@@ -117,19 +117,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   volumeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
+    width: "100%",
     marginTop: "auto",
     marginBottom: 30,
     paddingHorizontal: 8,
   },
-  volumeBarBg: {
-    flex: 1,
-    height: 4,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 2,
-  },
+
   volumeBarFill: {
     height: "100%",
     backgroundColor: "#FFF",

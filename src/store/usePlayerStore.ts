@@ -17,6 +17,7 @@ interface PlayerState {
   skipToPrevious: () => void;
   setVolume: (value: number) => void;
   toggleMute: () => void;
+  seekTo: (position: number) => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -27,7 +28,13 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   isPlaying: false,
   volume: 1.0,
   isMuted: false,
-
+  seekTo: (position) => {
+    const { player } = get();
+    if (player) {
+      // في expo-audio، دي الدالة المسئولة عن نقل الصوت لثانية معينة
+      player.seekTo(position);
+    }
+  },
   playTrack: (track) => {
     const { player, volume, isMuted } = get();
 
