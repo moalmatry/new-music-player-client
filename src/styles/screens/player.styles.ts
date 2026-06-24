@@ -66,7 +66,6 @@ export const styles = StyleSheet.create({
   },
   progressContainer: {
     marginTop: 32,
-    marginBottom: 20,
   },
   progressBarBg: {
     height: 4,

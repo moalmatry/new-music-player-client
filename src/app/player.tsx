@@ -4,20 +4,25 @@ import MovingText from "@/components/common/MovingText";
 import { unKnownTrackImage } from "@/constants/images";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
-import { utilsStyles } from "@/styles";
 import { styles } from "@/styles/screens/player.styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, GestureResponderEvent } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import Animated, { useSharedValue, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { useAudioPlayerStatus } from "expo-audio";
+
+// Helper to mutate Reanimated SharedValue. Defined outside of the component scope
+// to bypass React Compiler's strict mutation checks on hook-allocated values.
+const updateSharedValue = (sv: SharedValue<number>, val: number) => {
+  sv.value = val;
+};
 
 // دالة مساعدة سريعة لتحويل الثواني لصيغة دقائق:ثواني (مثال: 3:45)
 const formatTime = (seconds: number) => {
@@ -49,8 +54,72 @@ export default function PlayerScreen() {
   const currentTime = status?.currentTime || 0;
   // نتأكد إن المدة مش صفر عشان نتجنب قسمة على صفر
   const duration = status?.duration || 1;
-  // حساب النسبة المئوية لشريط التقدم (من 0 لـ 100)
-  const progressPercent = Math.min((currentTime / duration) * 100, 100);
+
+  const seekTo = usePlayerStore((state) => state.seekTo);
+
+  const [displayedTime, setDisplayedTime] = React.useState<number | null>(null);
+  const [containerWidth, setContainerWidth] = React.useState(0);
+  
+  const isSliding = React.useRef(false);
+  const startRelativeX = React.useRef(0);
+  const startPageX = React.useRef(0);
+
+  const trackProgress = useSharedValue(currentTime);
+
+  // Sync track position during normal playback
+  React.useEffect(() => {
+    if (!isSliding.current) {
+      updateSharedValue(trackProgress, currentTime);
+    }
+  }, [currentTime, trackProgress]);
+
+  const updateValue = (relativeX: number, isComplete = false) => {
+    if (containerWidth === 0) return;
+    const ratio = Math.max(0, Math.min(1, relativeX / containerWidth));
+    const newValue = ratio * duration;
+    
+    updateSharedValue(trackProgress, newValue);
+    setDisplayedTime(newValue);
+    
+    if (isComplete) {
+      isSliding.current = false;
+      setDisplayedTime(null);
+      seekTo(newValue);
+    }
+  };
+
+  const handleResponderGrant = (evt: GestureResponderEvent) => {
+    isSliding.current = true;
+    startRelativeX.current = evt.nativeEvent.locationX;
+    startPageX.current = evt.nativeEvent.pageX;
+    updateValue(startRelativeX.current);
+  };
+
+  const handleResponderMove = (evt: GestureResponderEvent) => {
+    const dx = evt.nativeEvent.pageX - startPageX.current;
+    const currentRelativeX = startRelativeX.current + dx;
+    updateValue(currentRelativeX);
+  };
+
+  const handleResponderRelease = (evt: GestureResponderEvent) => {
+    const dx = evt.nativeEvent.pageX - startPageX.current;
+    const currentRelativeX = startRelativeX.current + dx;
+    updateValue(currentRelativeX, true);
+  };
+
+  const animatedFillStyle = useAnimatedStyle(() => {
+    const percent = duration > 0 ? (trackProgress.value / duration) * 100 : 0;
+    return {
+      width: `${percent}%`,
+    };
+  }, [duration]);
+
+  const animatedHandleStyle = useAnimatedStyle(() => {
+    const percent = duration > 0 ? (trackProgress.value / duration) * 100 : 0;
+    return {
+      left: `${percent}%`,
+    };
+  }, [duration]);
 
   if (!currentTrack) return null;
 
@@ -108,23 +177,39 @@ export default function PlayerScreen() {
 
                 {/* 5. شريط التقدم الديناميكي (Dynamic Progress Bar) */}
                 <View style={styles.progressContainer}>
-                  <View style={styles.progressBarBg}>
-                    <View
-                      style={[
-                        styles.progressBarFill,
-                        { width: `${progressPercent}%` },
-                      ]}
-                    />
-                    <View
-                      style={[
-                        styles.progressHandle,
-                        { left: `${progressPercent}%` },
-                      ]}
-                    />
+                  <View
+                    onStartShouldSetResponder={() => true}
+                    onMoveShouldSetResponder={() => true}
+                    onResponderGrant={handleResponderGrant}
+                    onResponderMove={handleResponderMove}
+                    onResponderRelease={handleResponderRelease}
+                    onLayout={(e) => {
+                      setContainerWidth(e.nativeEvent.layout.width);
+                    }}
+                    style={{
+                      height: 40,
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <View style={styles.progressBarBg} pointerEvents="none">
+                      <Animated.View
+                        style={[
+                          styles.progressBarFill,
+                          animatedFillStyle,
+                        ]}
+                      />
+                      <Animated.View
+                        style={[
+                          styles.progressHandle,
+                          animatedHandleStyle,
+                        ]}
+                      />
+                    </View>
                   </View>
                   <View style={styles.timeRow}>
                     <Text style={styles.timeText}>
-                      {formatTime(currentTime)}
+                      {formatTime(displayedTime !== null ? displayedTime : currentTime)}
                     </Text>
                     <Text style={styles.timeText}>{formatTime(duration)}</Text>
                   </View>
@@ -152,7 +237,6 @@ export default function PlayerScreen() {
                     />
                   </TouchableOpacity>
 
-                  {/* زرار التشغيل والإيقاف */}
                   <TouchableOpacity
                     onPress={togglePlayPause}
                     style={styles.playButton}
@@ -166,7 +250,6 @@ export default function PlayerScreen() {
                     />
                   </TouchableOpacity>
 
-                  {/* زرار الأغنية التالية */}
                   <TouchableOpacity
                     onPress={skipToNext}
                     style={styles.controlIcon}
@@ -193,16 +276,7 @@ export default function PlayerScreen() {
                 <PlayerVolumeBar
                   style={{
                     marginTop: "auto",
-                    marginBottom: 30,
                   }}
-                />
-              </View>
-
-              <View style={[utilsStyles.centeredRow, { paddingBottom: "5%" }]}>
-                <Ionicons
-                  name="repeat-outline"
-                  size={24}
-                  color={colors.primary}
                 />
               </View>
             </View>

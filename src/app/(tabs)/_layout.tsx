@@ -58,7 +58,11 @@ export default function TabsLayout() {
               <BlurView intensity={80} tint="dark" style={styles.blurView} />
             );
           },
-          tabBarButton: ({ style, onPress, children }: any) => (
+          tabBarButton: ({ style, onPress, children }: {
+            style?: import('react-native').StyleProp<import('react-native').ViewStyle>;
+            onPress?: (event: import('react-native').GestureResponderEvent) => void;
+            children?: React.ReactNode;
+          }) => (
             <TouchableOpacity
               activeOpacity={0.7}
               style={style}

@@ -31,7 +31,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   seekTo: (position) => {
     const { player } = get();
     if (player) {
-      // في expo-audio، دي الدالة المسئولة عن نقل الصوت لثانية معينة
+      // في expo-audio، دي الدالة المسئولة عن نقل الصوت لثانية معينة وتتوقع ثواني
       player.seekTo(position);
     }
   },

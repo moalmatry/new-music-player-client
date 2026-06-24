@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle, GestureResponderEvent } from "react-native";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -43,20 +43,20 @@ const CustomProgressBar: React.FC<CustomProgressBarProps> = ({
     if (isComplete && onSlidingComplete) onSlidingComplete(newValue);
   };
 
-  const handleResponderGrant = (evt: any) => {
+  const handleResponderGrant = (evt: GestureResponderEvent) => {
     if (onSlidingStart) onSlidingStart();
     startRelativeX.current = evt.nativeEvent.locationX;
     startPageX.current = evt.nativeEvent.pageX;
     updateValue(startRelativeX.current);
   };
 
-  const handleResponderMove = (evt: any) => {
+  const handleResponderMove = (evt: GestureResponderEvent) => {
     const dx = evt.nativeEvent.pageX - startPageX.current;
     const currentRelativeX = startRelativeX.current + dx;
     updateValue(currentRelativeX);
   };
 
-  const handleResponderRelease = (evt: any) => {
+  const handleResponderRelease = (evt: GestureResponderEvent) => {
     const dx = evt.nativeEvent.pageX - startPageX.current;
     const currentRelativeX = startRelativeX.current + dx;
     updateValue(currentRelativeX, true);
