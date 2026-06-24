@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#252525",
+    backgroundColor: "transparent",
     padding: 8,
     borderRadius: 50,
     paddingVertical: 10,
@@ -13,6 +13,18 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.12)",
+    overflow: "hidden",
+  },
+  blurView: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 50,
+    backgroundColor: "transparent",
+  },
+  glassView: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 50,
   },
   trackArtWorkImage: {
     width: 40,

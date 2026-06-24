@@ -4,12 +4,16 @@ import { usePlayerStore } from "@/store/usePlayerStore";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
+import { StyleProp, TouchableOpacity, View, ViewStyle, Platform } from "react-native";
+import { BlurView } from "expo-blur";
+import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { styles } from "./FloatingPlayer.styles";
 
 interface FloatingPlayerProps {
   style?: StyleProp<ViewStyle>;
 }
+
+const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
 
 export default function FloatingPlayer({ style }: FloatingPlayerProps) {
   const router = useRouter();
@@ -28,6 +32,15 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
       onPress={() => router.push("/player")}
       style={[styles.container, style]}
     >
+      {useLiquidGlass ? (
+        <GlassView
+          glassEffectStyle="clear"
+          colorScheme="dark"
+          style={styles.glassView}
+        />
+      ) : (
+        <BlurView intensity={80} tint="dark" style={styles.blurView} />
+      )}
       <Image
         source={{ uri: currentTrack.artwork || unKnownTrackImage }}
         style={styles.trackArtWorkImage}

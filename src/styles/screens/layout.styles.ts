@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     right: 20,
     height: 70,
     elevation: 5,
-    backgroundColor: Platform.OS === 'ios' ? 'transparent' : 'rgba(20, 20, 20, 0.8)',
+    backgroundColor: 'transparent',
     borderRadius: 35,
     borderTopWidth: 0,
     borderWidth: 1,
