@@ -1,5 +1,6 @@
 import { colors, screenPadding } from "@/constants/tokens";
 // 1. استدعاء الـ Store الصحيح اللي بنيناه
+import MovingText from "@/components/common/MovingText";
 import { unKnownTrackImage } from "@/constants/images";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
@@ -14,7 +15,6 @@ import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// 2. استدعاء الهوك الخاص بحالة الصوت من expo-audio
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { useAudioPlayerStatus } from "expo-audio";
 
@@ -86,9 +86,12 @@ export default function PlayerScreen() {
                 <View style={{ height: 60 }}>
                   <View style={styles.metaRow}>
                     <View style={styles.trackTitleContainer}>
-                      <Text numberOfLines={1} style={styles.trackTitleText}>
+                      <MovingText
+                        style={styles.trackTitleText}
+                        animationThreshold={30}
+                      >
                         {currentTrack.title}
-                      </Text>
+                      </MovingText>
                     </View>
                     <FontAwesome
                       onPress={toggleFavorite}

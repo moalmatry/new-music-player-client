@@ -35,7 +35,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
         transition={200}
       />
       <View style={styles.trackTitleContainer}>
-        <MovingText style={styles.trackTitle} animationThreshold={100}>
+        <MovingText style={styles.trackTitle} animationThreshold={15}>
           {currentTrack.title ?? ""}
         </MovingText>
       </View>
