@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontsSize } from '@/constants/tokens';
+import { AppTheme } from '@/constants/theme';
+import { fontsSize } from '@/constants/tokens';
 import { defaultStyles } from '@/styles';
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   trackItemContainer: {
     flexDirection: 'row',
     columnGap: 14,
@@ -18,7 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     width: 50,
     height: 50,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
   },
   trackDetailsContainer: {
     flex: 1,
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   trackArtistText: {
     ...defaultStyles.text,
-    color: colors.textMuted,
+    color: theme.textSecondary,
     fontSize: 14,
     marginTop: 4,
   },

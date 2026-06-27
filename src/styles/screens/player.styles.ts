@@ -1,10 +1,11 @@
-import { colors, fontsSize } from "@/constants/tokens";
+import { AppTheme } from "@/constants/theme";
+import { fontsSize } from "@/constants/tokens";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: theme.background,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -24,12 +25,11 @@ export const styles = StyleSheet.create({
     width: 50,
     height: 8,
     borderRadius: 8,
-    backgroundColor: "#fff",
-    opacity: 0.7,
+    backgroundColor: theme.textSecondary + '30',
   },
   artworkImageContainer: {
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.44,
+    shadowOpacity: 0.2,
     shadowRadius: 11.0,
     flexDirection: "row",
     justifyContent: "center",
@@ -55,11 +55,11 @@ export const styles = StyleSheet.create({
   trackTitleText: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#FFF",
+    color: theme.text,
   },
   trackArtistText: {
     fontSize: fontsSize.base,
-    color: colors.textMuted,
+    color: theme.textSecondary,
     opacity: 0.8,
     maxWidth: "90%",
     marginTop: 6,
@@ -69,20 +69,20 @@ export const styles = StyleSheet.create({
   },
   progressBarBg: {
     height: 4,
-    backgroundColor: colors.maximumTrackTintColor,
+    backgroundColor: theme.maximumTrackTintColor,
     borderRadius: 2,
     position: "relative",
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: colors.minimumTrackTintColor,
+    backgroundColor: theme.minimumTrackTintColor,
     borderRadius: 2,
   },
   progressHandle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: colors.minimumTrackTintColor,
+    backgroundColor: theme.minimumTrackTintColor,
     position: "absolute",
     top: -3,
     transform: [{ translateX: -5 }],
@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
     marginTop: 8,
   },
   timeText: {
-    color: colors.textMuted,
+    color: theme.textSecondary,
     fontSize: 12,
   },
   controlsRow: {
@@ -111,9 +111,14 @@ export const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: "#FFF",
+    backgroundColor: theme.playButtonBackground,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
   },
   volumeContainer: {
     width: "100%",
@@ -124,7 +129,7 @@ export const styles = StyleSheet.create({
 
   volumeBarFill: {
     height: "100%",
-    backgroundColor: "#FFF",
+    backgroundColor: theme.minimumTrackTintColor,
     borderRadius: 2,
   },
 });

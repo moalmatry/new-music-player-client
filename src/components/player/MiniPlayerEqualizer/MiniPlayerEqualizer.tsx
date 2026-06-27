@@ -8,7 +8,8 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { styles } from './MiniPlayerEqualizer.styles';
+import { useTheme } from '@/hooks/use-theme';
+import { createStyles } from './MiniPlayerEqualizer.styles';
 
 interface AnimatedBarProps {
   isPlaying: boolean;
@@ -17,6 +18,8 @@ interface AnimatedBarProps {
 }
 
 const AnimatedBar: React.FC<AnimatedBarProps> = ({ isPlaying, duration, maxHeight }) => {
+  const theme = useTheme();
+  const styles = createStyles(theme);
   const height = useSharedValue<number>(4);
 
   useEffect(() => {
@@ -52,6 +55,9 @@ interface MiniPlayerEqualizerProps {
 }
 
 export const MiniPlayerEqualizer: React.FC<MiniPlayerEqualizerProps> = ({ isPlaying }) => {
+  const theme = useTheme();
+  const styles = createStyles(theme);
+
   return (
     <View style={styles.container}>
       <AnimatedBar isPlaying={isPlaying} duration={350} maxHeight={16} />

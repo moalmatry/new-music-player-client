@@ -1,9 +1,10 @@
 import { StyleSheet, Platform } from 'react-native';
+import { AppTheme } from '@/constants/theme';
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: theme.background,
   },
   tabBar: {
     position: 'absolute',
@@ -17,12 +18,12 @@ export const styles = StyleSheet.create({
     borderRadius: 35,
     borderTopWidth: 0,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.12)',
+    borderColor: theme.textSecondary + '20', // subtle translucent border
     paddingBottom: 0,
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.15,
     shadowRadius: 15,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
   },

@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
+import { AppTheme } from "@/constants/theme";
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -10,11 +11,11 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 5,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.12)",
+    borderColor: theme.textSecondary + '20', // subtle translucent border
     overflow: "hidden",
   },
   blurView: {
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#121212",
+    backgroundColor: theme.backgroundSelected,
   },
   trackTitleContainer: {
     flex: 1,
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   trackTitle: {
-    color: "#FFF",
+    color: theme.text,
     fontSize: 16,
     fontWeight: "600",
     paddingLeft: 10,

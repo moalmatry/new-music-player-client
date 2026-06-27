@@ -6,14 +6,19 @@ import { BlurView } from 'expo-blur';
 import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
 import * as Haptics from 'expo-haptics';
 import FloatingPlayer from '@/components/player/FloatingPlayer/FloatingPlayer';
-import { colors, fontsSize } from '@/constants/tokens';
-import { styles } from '@/styles/screens/layout.styles';
+import { fontsSize } from '@/constants/tokens';
+import { useTheme } from '@/hooks/use-theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { createStyles } from '@/styles/screens/layout.styles';
 
 const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
 
 export default function TabsLayout() {
   const { height } = useWindowDimensions();
   const isSmallScreen = height < 700;
+  const scheme = useColorScheme();
+  const theme = useTheme();
+  const styles = createStyles(theme);
 
   return (
     <View style={styles.container}>
@@ -33,8 +38,8 @@ export default function TabsLayout() {
         )}
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: theme.primary,
+          tabBarInactiveTintColor: scheme === 'dark' ? '#999' : '#666',
           tabBarLabelStyle: {
             fontSize: fontsSize.xs,
             fontWeight: '500',
@@ -49,13 +54,13 @@ export default function TabsLayout() {
               return (
                 <GlassView
                   glassEffectStyle="clear"
-                  colorScheme="dark"
+                  colorScheme={scheme === 'dark' ? 'dark' : 'light'}
                   style={styles.glassView}
                 />
               );
             }
             return (
-              <BlurView intensity={80} tint="dark" style={styles.blurView} />
+              <BlurView intensity={80} tint={scheme === 'dark' ? 'dark' : 'light'} style={styles.blurView} />
             );
           },
           tabBarButton: ({ style, onPress, children }: {

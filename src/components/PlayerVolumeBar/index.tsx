@@ -1,4 +1,3 @@
-import { colors } from "@/constants/tokens";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { utilsStyles } from "@/styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,6 +5,7 @@ import { useEffect } from "react";
 import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { SharedValue, useSharedValue } from "react-native-reanimated";
 import CustomProgressBar from "../CustomProgressBar";
+import { useTheme } from "@/hooks/use-theme";
 
 export interface PlayerVolumeBarProps {
   style?: ViewStyle;
@@ -18,6 +18,7 @@ const updateProgress = (sv: SharedValue<number>, val: number) => {
 };
 
 const PlayerVolumeBar = ({ style }: PlayerVolumeBarProps) => {
+  const theme = useTheme();
   const volume = usePlayerStore((state) => state.volume);
   const isMuted = usePlayerStore((state) => state.isMuted);
   const setVolume = usePlayerStore((state) => state.setVolume);
@@ -50,7 +51,7 @@ const PlayerVolumeBar = ({ style }: PlayerVolumeBarProps) => {
           <Ionicons
             name={isMuted || volume === 0 ? "volume-mute" : "volume-low"}
             size={20}
-            color={isMuted ? colors.primary : colors.icon}
+            color={isMuted ? theme.primary : theme.icon}
             style={{ opacity: isMuted ? 1 : 0.5 }}
           />
         </TouchableOpacity>
@@ -59,8 +60,8 @@ const PlayerVolumeBar = ({ style }: PlayerVolumeBarProps) => {
           progress={progress}
           minValue={min}
           maxValue={max}
-          maximumTrackTintColor={colors.maximumTrackTintColor}
-          minimumTrackTintColor={colors.minimumTrackTintColor}
+          maximumTrackTintColor={theme.maximumTrackTintColor}
+          minimumTrackTintColor={theme.minimumTrackTintColor}
           containerStyle={[utilsStyles.slider, { flex: 1 }]}
           onValueChange={(value) => {
             updateProgress(progress, value);
@@ -72,7 +73,7 @@ const PlayerVolumeBar = ({ style }: PlayerVolumeBarProps) => {
           <Ionicons
             name="volume-high"
             size={20}
-            color={volume === 1 && !isMuted ? "white" : colors.icon}
+            color={theme.icon}
             style={{ opacity: volume === 1 && !isMuted ? 1 : 0.5 }}
           />
         </TouchableOpacity>

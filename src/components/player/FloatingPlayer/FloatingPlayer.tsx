@@ -7,7 +7,9 @@ import { useRouter } from "expo-router";
 import { StyleProp, TouchableOpacity, View, ViewStyle, Platform } from "react-native";
 import { BlurView } from "expo-blur";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
-import { styles } from "./FloatingPlayer.styles";
+import { useTheme } from "@/hooks/use-theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { createStyles } from "./FloatingPlayer.styles";
 
 interface FloatingPlayerProps {
   style?: StyleProp<ViewStyle>;
@@ -17,6 +19,9 @@ const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
 
 export default function FloatingPlayer({ style }: FloatingPlayerProps) {
   const router = useRouter();
+  const scheme = useColorScheme();
+  const theme = useTheme();
+  const styles = createStyles(theme);
 
   const currentTrack = usePlayerStore((state) => state.currentTrack);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
@@ -35,11 +40,11 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
       {useLiquidGlass ? (
         <GlassView
           glassEffectStyle="clear"
-          colorScheme="dark"
+          colorScheme={scheme === 'dark' ? 'dark' : 'light'}
           style={styles.glassView}
         />
       ) : (
-        <BlurView intensity={80} tint="dark" style={styles.blurView} />
+        <BlurView intensity={80} tint={scheme === 'dark' ? 'dark' : 'light'} style={styles.blurView} />
       )}
       <Image
         source={{ uri: currentTrack.artwork || unKnownTrackImage }}
@@ -58,7 +63,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
           onPress={skipToPrevious} // استخدام الدالة المحدثة
           style={styles.controlButton}
         >
-          <Ionicons name="play-back-sharp" size={22} color="#FFF" />
+          <Ionicons name="play-back-sharp" size={22} color={theme.iconControl} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -68,7 +73,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
           <Ionicons
             name={isPlaying ? "pause-sharp" : "play-sharp"}
             size={24}
-            color="#FFF"
+            color={theme.iconControl}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -76,7 +81,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
           onPress={skipToNext} // استخدام الدالة المحدثة
           style={styles.controlButton}
         >
-          <Ionicons name="play-forward-sharp" size={22} color="#FFF" />
+          <Ionicons name="play-forward-sharp" size={22} color={theme.iconControl} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>

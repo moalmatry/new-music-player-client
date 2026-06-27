@@ -8,14 +8,36 @@ import '@/global.css';
 import { Platform } from 'react-native';
 
 export const Colors = {
-  text: '#ffffff',
-  background: '#000000',
-  backgroundElement: '#212225',
-  backgroundSelected: '#2E3135',
-  textSecondary: '#B0B4BA',
+  light: {
+    primary: '#fc3c44',
+    text: '#000000',
+    background: '#ffffff',
+    backgroundElement: '#F0F0F3',
+    backgroundSelected: '#E0E1E6',
+    textSecondary: '#60646C',
+    icon: '#000000',
+    iconControl: '#6e6e73',
+    playButtonBackground: '#8e8e93',
+    maximumTrackTintColor: 'rgba(0, 0, 0, 0.1)',
+    minimumTrackTintColor: '#fc3c44',
+  },
+  dark: {
+    primary: '#fc3c44',
+    background: '#000000',
+    text: '#ffffff',
+    textSecondary: '#B0B4BA',
+    icon: '#ffffff',
+    iconControl: '#ffffff',
+    playButtonBackground: '#ffffff',
+    backgroundElement: '#212225',
+    backgroundSelected: '#2E3135',
+    maximumTrackTintColor: 'rgba(255, 255, 255, 0.3)',
+    minimumTrackTintColor: '#ffffff',
+  },
 } as const;
 
-export type ThemeColor = keyof typeof Colors;
+export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+export type AppTheme = typeof Colors.light | typeof Colors.dark;
 
 export const Fonts = Platform.select({
   ios: {

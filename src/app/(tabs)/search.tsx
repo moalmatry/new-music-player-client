@@ -9,7 +9,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import searchCategories from '@/data/search_categories.json';
-import { styles } from '@/styles/screens/search.styles';
+import { useTheme } from '@/hooks/use-theme';
+import { createStyles } from '@/styles/screens/search.styles';
 
 interface Category {
   id: string;
@@ -18,6 +19,9 @@ interface Category {
 }
 
 export default function SearchScreen() {
+  const theme = useTheme();
+  const styles = createStyles(theme);
+
   const renderCategory = ({ item }: { item: Category }) => (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -34,10 +38,10 @@ export default function SearchScreen() {
       </View>
 
       <View style={styles.searchBarContainer}>
-        <Ionicons name="search" size={20} color="#000" style={styles.searchIcon} />
+        <Ionicons name="search" size={20} color={theme.textSecondary} style={styles.searchIcon} />
         <TextInput
           placeholder="What do you want to listen to?"
-          placeholderTextColor="#666"
+          placeholderTextColor={theme.textSecondary}
           style={styles.searchInput}
         />
       </View>

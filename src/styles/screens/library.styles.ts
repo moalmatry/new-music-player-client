@@ -1,10 +1,10 @@
 import { StyleSheet, Platform } from 'react-native';
-import { colors } from '@/constants/tokens';
+import { AppTheme } from '@/constants/theme';
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: theme.background,
     paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   header: {
@@ -23,9 +23,10 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
+    backgroundColor: theme.backgroundElement,
   },
   headerTitle: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 22,
     fontWeight: '700',
   },
@@ -39,24 +40,26 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   filterChipActive: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
   },
   filterChipTextActive: {
-    color: '#FFF',
+    color: '#FFF', // Keep active filter text white on primary color background
     fontWeight: '600',
     fontSize: 13,
   },
   filterChip: {
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.textSecondary + '10',
   },
   filterChipText: {
-    color: '#FFF',
+    color: theme.text,
     fontWeight: '500',
     fontSize: 13,
   },
@@ -74,7 +77,7 @@ export const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 4,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
   },
   playlistText: {
     flex: 1,
@@ -82,12 +85,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   playlistTitle: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 15,
     fontWeight: '600',
   },
   playlistSub: {
-    color: '#B3B3B3',
+    color: theme.textSecondary,
     fontSize: 13,
     marginTop: 2,
   },
@@ -98,7 +101,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   emptyText: {
-    color: colors.textMuted,
+    color: theme.textSecondary,
     fontSize: 16,
     textAlign: 'center',
   },

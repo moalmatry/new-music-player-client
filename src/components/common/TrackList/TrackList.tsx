@@ -3,18 +3,22 @@ import { usePlayerStore } from "@/store/usePlayerStore";
 import { defaultStyles, utilsStyles } from "@/styles";
 import { FlatList, FlatListProps, Text, View } from "react-native";
 import TrackListItem from "../TrackListItem/TrackListItem";
-import { styles } from "./TrackList.styles";
-
-const ItemDivider = () => (
-  <View style={[styles.separator, { marginVertical: 9, marginLeft: 64 }]} />
-);
+import { useTheme } from "@/hooks/use-theme";
+import { createStyles } from "./TrackList.styles";
 
 type TrackListProps = Partial<FlatListProps<Track>> & {
   list: Track[];
 };
 
 export default function TrackList({ list, ...props }: TrackListProps) {
+  const theme = useTheme();
+  const styles = createStyles(theme);
   const loadPlaylist = usePlayerStore((state) => state.loadPlaylist);
+
+  const ItemDivider = () => (
+    <View style={[styles.separator, { marginVertical: 9, marginLeft: 64 }]} />
+  );
+
   const handleTrackSelect = (track: Track) => {
     loadPlaylist(list, list.indexOf(track));
   };
@@ -22,7 +26,7 @@ export default function TrackList({ list, ...props }: TrackListProps) {
   return (
     <FlatList
       data={list}
-      style={defaultStyles.container}
+      style={[defaultStyles.container, { backgroundColor: theme.background }]}
       ItemSeparatorComponent={ItemDivider}
       ListEmptyComponent={
         <View style={styles.emptyContainer}>

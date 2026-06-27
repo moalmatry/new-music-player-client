@@ -1,12 +1,15 @@
 import homeFeed from "@/data/home_feed.json";
 import tracksData from "@/data/tracks.json";
 import { usePlayerStore } from "@/store/usePlayerStore";
-import { styles } from "@/styles/screens/index.styles";
+import { useTheme } from "@/hooks/use-theme";
+import { createStyles } from "@/styles/screens/index.styles";
 import { Image } from "expo-image";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const theme = useTheme();
+  const styles = createStyles(theme);
   // 2. استدعاء دالة التشغيل من Zustand (بدل usePlayer القديمة)
   const playTrack = usePlayerStore((state) => state.playTrack);
 

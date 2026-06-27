@@ -1,17 +1,27 @@
-import { colors, screenPadding } from "@/constants/tokens";
+import { screenPadding } from "@/constants/tokens";
+import { useTheme } from "@/hooks/use-theme";
+import { createStyles } from "@/styles/screens/player.styles";
 // 1. استدعاء الـ Store الصحيح اللي بنيناه
 import MovingText from "@/components/common/MovingText";
 import { unKnownTrackImage } from "@/constants/images";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
-import { styles } from "@/styles/screens/player.styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Text, TouchableOpacity, View, GestureResponderEvent } from "react-native";
+import {
+  GestureResponderEvent,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
-import Animated, { useSharedValue, SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import PlayerVolumeBar from "@/components/PlayerVolumeBar";
@@ -33,14 +43,15 @@ const formatTime = (seconds: number) => {
 };
 
 export default function PlayerScreen() {
+  const theme = useTheme();
+  const styles = createStyles(theme);
   const { pan, animatedStyle } = useExpandFloatingPlayer();
   const { top, bottom } = useSafeAreaInsets();
   const [isFavorite, setIsFavorite] = React.useState(false);
 
-  // 3. استدعاء الحالة والدوال بأسماء الـ Zustand الفعالة
   const currentTrack = usePlayerStore((state) => state.currentTrack);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
-  const player = usePlayerStore((state) => state.player); // استدعاء نسخة المشغل
+  const player = usePlayerStore((state) => state.player);
   const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
   const skipToNext = usePlayerStore((state) => state.skipToNext);
   const skipToPrevious = usePlayerStore((state) => state.skipToPrevious);
@@ -49,17 +60,15 @@ export default function PlayerScreen() {
     currentTrack?.artwork || unKnownTrackImage,
   );
 
-  // 4. قراءة تقدم الأغنية الحقيقي
   const status = useAudioPlayerStatus(player!);
   const currentTime = status?.currentTime || 0;
-  // نتأكد إن المدة مش صفر عشان نتجنب قسمة على صفر
   const duration = status?.duration || 1;
 
   const seekTo = usePlayerStore((state) => state.seekTo);
 
   const [displayedTime, setDisplayedTime] = React.useState<number | null>(null);
   const [containerWidth, setContainerWidth] = React.useState(0);
-  
+
   const isSliding = React.useRef(false);
   const startRelativeX = React.useRef(0);
   const startPageX = React.useRef(0);
@@ -77,10 +86,10 @@ export default function PlayerScreen() {
     if (containerWidth === 0) return;
     const ratio = Math.max(0, Math.min(1, relativeX / containerWidth));
     const newValue = ratio * duration;
-    
+
     updateSharedValue(trackProgress, newValue);
     setDisplayedTime(newValue);
-    
+
     if (isComplete) {
       isSliding.current = false;
       setDisplayedTime(null);
@@ -121,7 +130,13 @@ export default function PlayerScreen() {
     };
   }, [duration]);
 
-  if (!currentTrack) return null;
+  if (!currentTrack) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={{ color: theme.text }}>Loading...</Text>
+      </View>
+    );
+  }
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -132,7 +147,7 @@ export default function PlayerScreen() {
       <Animated.View style={[styles.overlayContainer, animatedStyle]}>
         <LinearGradient
           style={{ flex: 1, paddingHorizontal: screenPadding.horizontal }}
-          colors={[imageColors.background, "#000000"]}
+          colors={[imageColors.background, imageColors.text]}
         >
           {/* Top Dismiss Indicator Pill */}
           <View style={[styles.dismissIndicatorContainer, { top: top + 8 }]}>
@@ -167,7 +182,7 @@ export default function PlayerScreen() {
                       onPress={toggleFavorite}
                       name={isFavorite ? "heart" : "heart-o"}
                       size={24}
-                      color={isFavorite ? colors.primary : colors.icon}
+                      color={isFavorite ? theme.primary : theme.icon}
                     />
                   </View>
                   <Text numberOfLines={1} style={styles.trackArtistText}>
@@ -194,22 +209,18 @@ export default function PlayerScreen() {
                   >
                     <View style={styles.progressBarBg} pointerEvents="none">
                       <Animated.View
-                        style={[
-                          styles.progressBarFill,
-                          animatedFillStyle,
-                        ]}
+                        style={[styles.progressBarFill, animatedFillStyle]}
                       />
                       <Animated.View
-                        style={[
-                          styles.progressHandle,
-                          animatedHandleStyle,
-                        ]}
+                        style={[styles.progressHandle, animatedHandleStyle]}
                       />
                     </View>
                   </View>
                   <View style={styles.timeRow}>
                     <Text style={styles.timeText}>
-                      {formatTime(displayedTime !== null ? displayedTime : currentTime)}
+                      {formatTime(
+                        displayedTime !== null ? displayedTime : currentTime,
+                      )}
                     </Text>
                     <Text style={styles.timeText}>{formatTime(duration)}</Text>
                   </View>
@@ -221,7 +232,11 @@ export default function PlayerScreen() {
                     style={styles.controlIcon}
                     activeOpacity={0.7}
                   >
-                    <Ionicons name="shuffle" size={24} color="#B3B3B3" />
+                    <Ionicons
+                      name="shuffle"
+                      size={24}
+                      color={theme.textSecondary}
+                    />
                   </TouchableOpacity>
 
                   {/* زرار الأغنية السابقة */}
@@ -233,7 +248,7 @@ export default function PlayerScreen() {
                     <Ionicons
                       name="play-skip-back-sharp"
                       size={32}
-                      color="#FFF"
+                      color={theme.iconControl}
                     />
                   </TouchableOpacity>
 
@@ -245,7 +260,7 @@ export default function PlayerScreen() {
                     <Ionicons
                       name={isPlaying ? "pause" : "play"}
                       size={30}
-                      color="#000"
+                      color={theme.background}
                       style={{ marginLeft: isPlaying ? 0 : 4 }}
                     />
                   </TouchableOpacity>
@@ -258,7 +273,7 @@ export default function PlayerScreen() {
                     <Ionicons
                       name="play-skip-forward-sharp"
                       size={32}
-                      color="#FFF"
+                      color={theme.iconControl}
                     />
                   </TouchableOpacity>
 
@@ -266,7 +281,11 @@ export default function PlayerScreen() {
                     style={styles.controlIcon}
                     activeOpacity={0.7}
                   >
-                    <Ionicons name="repeat" size={24} color="#B3B3B3" />
+                    <Ionicons
+                      name="repeat"
+                      size={24}
+                      color={theme.textSecondary}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

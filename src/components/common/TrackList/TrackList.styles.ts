@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { AppTheme } from '@/constants/theme';
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   emptyContainer: {
     paddingVertical: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
   separator: {
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: theme.textSecondary + '20', // subtle translucent separator border
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { AppTheme } from '@/constants/theme';
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   bar: {
     width: 4,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.primary,
     borderRadius: 2,
   },
 });

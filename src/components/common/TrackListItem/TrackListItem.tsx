@@ -1,11 +1,11 @@
 import { MiniPlayerEqualizer } from "@/components/player/MiniPlayerEqualizer/MiniPlayerEqualizer";
 import { unKnownTrackImage } from "@/constants/images";
-import { colors } from "@/constants/tokens";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { Entypo } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Text, TouchableOpacity, View } from "react-native";
-import { styles } from "./TrackListItem.styles";
+import { useTheme } from "@/hooks/use-theme";
+import { createStyles } from "./TrackListItem.styles";
 
 interface TrackListItemProps {
   track: Track;
@@ -16,6 +16,8 @@ export default function TrackListItem({
   track,
   onTrackSelect,
 }: TrackListItemProps) {
+  const theme = useTheme();
+  const styles = createStyles(theme);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
   const currentTrack = usePlayerStore((state) => state.currentTrack);
   const isActiveTrack = currentTrack?.id === track.id;
@@ -41,7 +43,7 @@ export default function TrackListItem({
             <Text
               style={[
                 styles.trackTitleText,
-                { color: isActiveTrack ? colors.primary : colors.text },
+                { color: isActiveTrack ? theme.primary : theme.text },
               ]}
               numberOfLines={1}
             >
@@ -55,7 +57,7 @@ export default function TrackListItem({
             <Entypo
               name="dots-three-horizontal"
               size={18}
-              color={colors.textMuted}
+              color={theme.textSecondary}
             />
           </TouchableOpacity>
         </View>

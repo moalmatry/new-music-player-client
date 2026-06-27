@@ -1,12 +1,13 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { AppTheme } from '@/constants/theme';
 
 const { width } = Dimensions.get('window');
 const RECENT_CARD_WIDTH = (width - 32 - 8) / 2; // 2 columns with gaps
 
-export const styles = StyleSheet.create({
+export const createStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: theme.background,
     paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   scrollContent: {
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     marginVertical: 16,
   },
   greeting: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 22,
     fontWeight: '700',
   },
@@ -28,10 +29,10 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
   },
   sectionTitle: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 20,
     fontWeight: '700',
     paddingHorizontal: 16,
@@ -47,7 +48,7 @@ export const styles = StyleSheet.create({
   recentCard: {
     width: RECENT_CARD_WIDTH,
     height: 56,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
@@ -57,7 +58,8 @@ export const styles = StyleSheet.create({
   recentArt: {
     width: 56,
     height: 56,
-    backgroundColor: '#2C2C2E',
+    backgroundColor: theme.backgroundElement,
+    opacity: 0.8,
   },
   recentTextContainer: {
     flex: 1,
@@ -65,7 +67,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   recentTitle: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -81,17 +83,17 @@ export const styles = StyleSheet.create({
     width: 145,
     height: 145,
     borderRadius: 6,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: theme.backgroundElement,
     marginBottom: 8,
   },
   madeForTitle: {
-    color: '#FFF',
+    color: theme.text,
     fontSize: 13,
     fontWeight: '600',
     marginBottom: 4,
   },
   madeForDescription: {
-    color: '#B3B3B3',
+    color: theme.textSecondary,
     fontSize: 11,
     lineHeight: 14,
   },
