@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,11 +9,19 @@ import TrackList from "@/components/common/TrackList";
 import homeFeed from "@/data/home_feed.json";
 import tracksData from "@/data/tracks.json";
 import { useTheme } from "@/hooks/use-theme";
+import { useAuthStore } from "@/store/useAuthStore";
 import { createStyles } from "@/styles/screens/library.styles";
 
 export default function LibraryScreen() {
   const theme = useTheme();
   const styles = createStyles(theme);
+  const router = useRouter();
+  const signOut = useAuthStore((state) => state.signOut);
+
+  const handleSignOut = () => {
+    signOut();
+    router.replace("/(auth)/welcome");
+  };
   const [activeFilter, setActiveFilter] = useState<
     "playlists" | "songs" | "artists"
   >("playlists");
@@ -35,9 +44,14 @@ export default function LibraryScreen() {
           <Image source={{ uri: homeFeed.user.avatar }} style={styles.avatar} />
           <Text style={styles.headerTitle}>Your Library</Text>
         </View>
-        <TouchableOpacity style={styles.addButton}>
-          <Ionicons name="add" size={26} color={theme.icon} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+          <TouchableOpacity style={styles.addButton}>
+            <Ionicons name="add" size={26} color={theme.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSignOut} style={styles.addButton}>
+            <Ionicons name="log-out-outline" size={26} color={theme.icon} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.filterRow}>

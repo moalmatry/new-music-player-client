@@ -1,0 +1,181 @@
+import { Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTheme } from "@/hooks/use-theme";
+import { useAuthStore } from "@/store/useAuthStore";
+import { createStyles } from "@/styles/screens/auth.styles";
+
+export default function SignInScreen() {
+  const theme = useTheme();
+  const scheme = useColorScheme();
+  const styles = createStyles(theme);
+  const router = useRouter();
+  const { top } = useSafeAreaInsets();
+  const signIn = useAuthStore((state) => state.signIn);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSignIn = () => {
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address");
+      return;
+    }
+    setError("");
+    signIn(email);
+    router.replace("/(tabs)");
+  };
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={scheme === "dark" ? ["#0D0221", "#05000A"] : ["#E8EAFF", "#F4F5FF"]}
+        style={styles.backgroundGradient}
+      />
+
+      {/* Static Glow Blobs */}
+      <View style={styles.blobTop} />
+      <View style={styles.blobBottom} />
+
+      <BlurView
+        intensity={scheme === "dark" ? 85 : 65}
+        tint={scheme === "dark" ? "dark" : "light"}
+        style={styles.blurView}
+      />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        {/* Back Button */}
+        <Pressable
+          onPress={() => router.back()}
+          style={[styles.backButton, { top: top + 12 }]}
+        >
+          <View style={styles.backButtonCircle}>
+            <Ionicons name="chevron-back" size={24} color={theme.text} />
+          </View>
+        </Pressable>
+
+        <View style={styles.contentContainer}>
+          <View style={styles.formCard}>
+            <BlurView
+              intensity={20}
+              tint={scheme === "dark" ? "dark" : "light"}
+              style={styles.cardBlur}
+            />
+            <View style={styles.cardContent}>
+              <Text style={styles.title}>Welcome Back</Text>
+              <Text style={styles.subtitle}>
+                Sign in to continue enjoying your absolute favorite music tracks.
+              </Text>
+
+              {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+              <View style={styles.inputGroup}>
+                {/* Email Input */}
+                <View
+                  style={[
+                    styles.inputContainer,
+                    {
+                      borderColor: emailFocused
+                        ? theme.primary
+                        : theme.text + "15",
+                    },
+                  ]}
+                >
+                  <Ionicons
+                    name="mail-outline"
+                    size={20}
+                    color={emailFocused ? theme.primary : theme.textSecondary}
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    placeholder="Email Address"
+                    placeholderTextColor={theme.textSecondary + "90"}
+                    style={styles.inputText}
+                    value={email}
+                    onChangeText={setEmail}
+                    onFocus={() => setEmailFocused(true)}
+                    onBlur={() => setEmailFocused(false)}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                  />
+                </View>
+
+                {/* Password Input */}
+                <View
+                  style={[
+                    styles.inputContainer,
+                    {
+                      borderColor: passwordFocused
+                        ? theme.primary
+                        : theme.text + "15",
+                    },
+                  ]}
+                >
+                  <Ionicons
+                    name="lock-closed-outline"
+                    size={20}
+                    color={passwordFocused ? theme.primary : theme.textSecondary}
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    placeholder="Password"
+                    placeholderTextColor={theme.textSecondary + "90"}
+                    style={styles.inputText}
+                    value={password}
+                    onChangeText={setPassword}
+                    onFocus={() => setPasswordFocused(true)}
+                    onBlur={() => setPasswordFocused(false)}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
+              </View>
+
+              <Pressable
+                onPress={handleSignIn}
+                style={({ pressed }) => [
+                  styles.btnSubmit,
+                  { opacity: pressed ? 0.9 : 1 },
+                ]}
+              >
+                <Text style={styles.btnSubmitText}>Sign In</Text>
+              </Pressable>
+
+              <View style={styles.footerRow}>
+                <Text style={styles.footerText}>{"Don't have an account?"}</Text>
+                <Pressable onPress={() => router.replace("/signup")}>
+                  <Text style={styles.footerLink}>Sign Up</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
+  );
+}
