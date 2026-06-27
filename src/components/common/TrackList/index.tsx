@@ -3,7 +3,7 @@ import { FlatList, FlatListProps, Text, View } from "react-native";
 import { screenPadding } from "@/constants/tokens";
 import { useTheme } from "@/hooks/use-theme";
 import { usePlayerStore } from "@/store/usePlayerStore";
-import { defaultStyles, utilsStyles } from "@/styles";
+import { utilsStyles } from "@/styles";
 
 import TrackListItem from "../TrackListItem";
 import { createStyles } from "./index.styles";
@@ -28,7 +28,7 @@ export default function TrackList({ list, ...props }: TrackListProps) {
   return (
     <FlatList
       data={list}
-      style={[defaultStyles.container, { backgroundColor: theme.background }]}
+      style={{ flex: 1, backgroundColor: "transparent" }}
       ItemSeparatorComponent={ItemDivider}
       ListEmptyComponent={
         <View style={styles.emptyContainer}>
