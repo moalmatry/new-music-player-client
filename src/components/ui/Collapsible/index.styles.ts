@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from "@/constants/theme";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   heading: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.two,
   },
   pressedHeading: {
@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     width: Spacing.four,
     height: Spacing.four,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   content: {
     marginTop: Spacing.three,

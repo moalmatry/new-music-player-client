@@ -1,5 +1,11 @@
 import React, { useRef, useState } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle, GestureResponderEvent } from "react-native";
+import {
+  GestureResponderEvent,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import Animated, {
   Extrapolation,
   interpolate,

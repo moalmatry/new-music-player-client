@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import { useEffect } from "react";
+import { StyleProp, TextStyle } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -8,7 +8,7 @@ import Animated, {
   withDelay,
   withRepeat,
   withTiming,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 export interface MovingTextProps {
   children: string;
@@ -16,7 +16,11 @@ export interface MovingTextProps {
   style?: StyleProp<TextStyle>;
 }
 
-const MovingText = ({ children, animationThreshold, style }: MovingTextProps) => {
+const MovingText = ({
+  children,
+  animationThreshold,
+  style,
+}: MovingTextProps) => {
   const translateX = useSharedValue(0);
   const shouldAnimate = children.length > animationThreshold;
   const textWidth = children.length * 8; // Estimate character width at ~16px font size
@@ -35,8 +39,8 @@ const MovingText = ({ children, animationThreshold, style }: MovingTextProps) =>
           easing: Easing.linear,
         }),
         -1, // Infinite loop
-        true // Reverse (scroll back and forth)
-      )
+        true, // Reverse (scroll back and forth)
+      ),
     );
 
     return () => {
@@ -54,7 +58,7 @@ const MovingText = ({ children, animationThreshold, style }: MovingTextProps) =>
       style={[
         style,
         animatedStyle,
-        shouldAnimate && { width: 9999, paddingLeft: 16 }
+        shouldAnimate && { width: 9999, paddingLeft: 16 },
       ]}
       numberOfLines={1}
     >

@@ -1,24 +1,24 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   glow: {
     width: 201,
     height: 201,
-    position: 'absolute',
+    position: "absolute",
   },
   iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 128,
     height: 128,
     zIndex: 100,
   },
   image: {
-    position: 'absolute',
+    position: "absolute",
     width: 76,
     height: 71,
   },
@@ -27,11 +27,11 @@ export const styles = StyleSheet.create({
     experimental_backgroundImage: `linear-gradient(180deg, #3C9FFE, #0274DF)`,
     width: 128,
     height: 128,
-    position: 'absolute',
+    position: "absolute",
   },
   backgroundSolidColor: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: '#208AEF',
+    backgroundColor: "#208AEF",
     zIndex: 1000,
   },
 });

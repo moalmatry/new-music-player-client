@@ -1,3 +1,4 @@
+import { useTheme } from "@/hooks/use-theme";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { utilsStyles } from "@/styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -5,7 +6,6 @@ import { useEffect } from "react";
 import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { SharedValue, useSharedValue } from "react-native-reanimated";
 import CustomProgressBar from "../../ui/CustomProgressBar";
-import { useTheme } from "@/hooks/use-theme";
 
 export interface PlayerVolumeBarProps {
   style?: ViewStyle;

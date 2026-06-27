@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from "@/constants/theme";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.five,
-    alignItems: 'center',
+    alignItems: "center",
     gap: Spacing.two,
   },
   versionText: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   badgeImage: {
     width: 123,

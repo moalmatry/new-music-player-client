@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { useTheme } from "@/hooks/use-theme";
+import React, { useEffect } from "react";
+import { View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -7,9 +8,8 @@ import Animated, {
   withRepeat,
   withSequence,
   withTiming,
-} from 'react-native-reanimated';
-import { useTheme } from '@/hooks/use-theme';
-import { createStyles } from './index.styles';
+} from "react-native-reanimated";
+import { createStyles } from "./index.styles";
 
 interface AnimatedBarProps {
   isPlaying: boolean;
@@ -17,7 +17,11 @@ interface AnimatedBarProps {
   maxHeight: number;
 }
 
-const AnimatedBar: React.FC<AnimatedBarProps> = ({ isPlaying, duration, maxHeight }) => {
+const AnimatedBar: React.FC<AnimatedBarProps> = ({
+  isPlaying,
+  duration,
+  maxHeight,
+}) => {
   const theme = useTheme();
   const styles = createStyles(theme);
   const height = useSharedValue<number>(4);
@@ -54,7 +58,9 @@ interface MiniPlayerEqualizerProps {
   isPlaying: boolean;
 }
 
-export const MiniPlayerEqualizer: React.FC<MiniPlayerEqualizerProps> = ({ isPlaying }) => {
+export const MiniPlayerEqualizer: React.FC<MiniPlayerEqualizerProps> = ({
+  isPlaying,
+}) => {
   const theme = useTheme();
   const styles = createStyles(theme);
 
