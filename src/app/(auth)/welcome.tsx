@@ -1,6 +1,5 @@
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -15,6 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { AmbientBackground } from "@/components/common/AmbientBackground";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useTheme } from "@/hooks/use-theme";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -28,18 +28,6 @@ export default function WelcomeScreen() {
   const { top, bottom } = useSafeAreaInsets();
   const signIn = useAuthStore((state) => state.signIn);
 
-  // Reanimated Shared Values for Floating Aura Blobs
-  const blob1X = useSharedValue(-50);
-  const blob1Y = useSharedValue(-50);
-  const blob1Scale = useSharedValue(1);
-
-  const blob2X = useSharedValue(250);
-  const blob2Y = useSharedValue(300);
-  const blob2Scale = useSharedValue(1.1);
-
-  const blob3X = useSharedValue(50);
-  const blob3Y = useSharedValue(600);
-
   // Logo Pulse Anim
   const logoScale = useSharedValue(1);
   const logoOpacity = useSharedValue(0);
@@ -51,67 +39,7 @@ export default function WelcomeScreen() {
   const cardOpacity = useSharedValue(0);
 
   useEffect(() => {
-    // 1. Floating animations for Aurora blobs
-    blob1X.value = withRepeat(
-      withSequence(
-        withTiming(150, { duration: 9000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(-50, { duration: 9000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-    blob1Y.value = withRepeat(
-      withSequence(
-        withTiming(180, { duration: 11000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(-50, { duration: 11000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-    blob1Scale.value = withRepeat(
-      withSequence(
-        withTiming(1.3, { duration: 8000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.9, { duration: 8000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-
-    blob2X.value = withRepeat(
-      withSequence(
-        withTiming(50, { duration: 10000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(250, { duration: 10000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-    blob2Y.value = withRepeat(
-      withSequence(
-        withTiming(550, { duration: 12000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(300, { duration: 12000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-    blob2Scale.value = withRepeat(
-      withSequence(
-        withTiming(0.8, { duration: 7000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1.2, { duration: 7000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-
-    blob3X.value = withRepeat(
-      withSequence(
-        withTiming(200, { duration: 8500, easing: Easing.inOut(Easing.ease) }),
-        withTiming(50, { duration: 8500, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-    blob3Y.value = withRepeat(
-      withSequence(
-        withTiming(450, { duration: 9500, easing: Easing.inOut(Easing.ease) }),
-        withTiming(600, { duration: 9500, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-    );
-
-    // 2. Logo Pulsing
+    // Logo Pulsing
     logoScale.value = withRepeat(
       withSequence(
         withTiming(1.08, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
@@ -121,7 +49,7 @@ export default function WelcomeScreen() {
     );
     logoOpacity.value = withTiming(1, { duration: 800 });
 
-    // 3. Entrance Fades
+    // Entrance Fades
     textTranslateY.value = withDelay(
       300,
       withTiming(0, { duration: 800, easing: Easing.out(Easing.back(1.5)) }),
@@ -135,27 +63,6 @@ export default function WelcomeScreen() {
     cardOpacity.value = withDelay(600, withTiming(1, { duration: 800 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Animated Styles
-  const animatedBlob1 = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: blob1X.value },
-      { translateY: blob1Y.value },
-      { scale: blob1Scale.value },
-    ],
-  }));
-
-  const animatedBlob2 = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: blob2X.value },
-      { translateY: blob2Y.value },
-      { scale: blob2Scale.value },
-    ],
-  }));
-
-  const animatedBlob3 = useAnimatedStyle(() => ({
-    transform: [{ translateX: blob3X.value }, { translateY: blob3Y.value }],
-  }));
 
   const animatedLogo = useAnimatedStyle(() => ({
     transform: [{ scale: logoScale.value }],
@@ -179,23 +86,8 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Background Gradients */}
-      <LinearGradient
-        colors={scheme === "dark" ? ["#0D0221", "#05000A"] : ["#E8EAFF", "#F4F5FF"]}
-        style={styles.backgroundGradient}
-      />
-
-      {/* Floating Animated Blob Auras */}
-      <Animated.View style={[styles.blob1, animatedBlob1]} />
-      <Animated.View style={[styles.blob2, animatedBlob2]} />
-      <Animated.View style={[styles.blob3, animatedBlob3]} />
-
-      {/* Screen blur layer to blend blobs */}
-      <BlurView
-        intensity={scheme === "dark" ? 80 : 60}
-        tint={scheme === "dark" ? "dark" : "light"}
-        style={styles.blurView}
-      />
+      {/* Reusable Premium Background */}
+      <AmbientBackground showExtraBlob />
 
       {/* Interactive content layer */}
       <View

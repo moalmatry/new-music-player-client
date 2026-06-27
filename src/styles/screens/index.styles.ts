@@ -12,28 +12,7 @@ export const createStyles = (theme: AppTheme) =>
       backgroundColor: theme.background,
       paddingTop: Platform.OS === "android" ? 40 : 0,
     },
-    backgroundGradient: {
-      ...StyleSheet.absoluteFill,
-    },
-    blob1: {
-      position: "absolute",
-      width: 220,
-      height: 220,
-      borderRadius: 110,
-      backgroundColor: theme.primary,
-      opacity: 0.1,
-    },
-    blob2: {
-      position: "absolute",
-      width: 260,
-      height: 260,
-      borderRadius: 130,
-      backgroundColor: "#ff007f",
-      opacity: 0.08,
-    },
-    blurView: {
-      ...StyleSheet.absoluteFill,
-    },
+
     scrollContent: {
       paddingBottom: 140, // Ensure content isn't hidden under FloatingPlayer
     },

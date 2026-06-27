@@ -12,28 +12,7 @@ export const createStyles = (theme: AppTheme) =>
       backgroundColor: theme.background,
       paddingTop: Platform.OS === "android" ? 40 : 0,
     },
-    backgroundGradient: {
-      ...StyleSheet.absoluteFill,
-    },
-    blob1: {
-      position: "absolute",
-      width: 200,
-      height: 200,
-      borderRadius: 100,
-      backgroundColor: theme.primary,
-      opacity: 0.1,
-    },
-    blob2: {
-      position: "absolute",
-      width: 250,
-      height: 250,
-      borderRadius: 125,
-      backgroundColor: "#00f0ff",
-      opacity: 0.08,
-    },
-    blurView: {
-      ...StyleSheet.absoluteFill,
-    },
+
     header: {
       paddingHorizontal: 20,
       marginVertical: 16,

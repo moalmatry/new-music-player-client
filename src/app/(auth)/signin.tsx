@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -13,6 +12,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { AmbientBackground } from "@/components/common/AmbientBackground";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useTheme } from "@/hooks/use-theme";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -48,20 +48,7 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={scheme === "dark" ? ["#0D0221", "#05000A"] : ["#E8EAFF", "#F4F5FF"]}
-        style={styles.backgroundGradient}
-      />
-
-      {/* Static Glow Blobs */}
-      <View style={styles.blobTop} />
-      <View style={styles.blobBottom} />
-
-      <BlurView
-        intensity={scheme === "dark" ? 85 : 65}
-        tint={scheme === "dark" ? "dark" : "light"}
-        style={styles.blurView}
-      />
+      <AmbientBackground />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}

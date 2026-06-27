@@ -8,36 +8,7 @@ export const createStyles = (theme: AppTheme) =>
       flex: 1,
       backgroundColor: theme.background,
     },
-    backgroundGradient: {
-      ...StyleSheet.absoluteFill,
-    },
-    blob1: {
-      position: "absolute",
-      width: 250,
-      height: 250,
-      borderRadius: 125,
-      backgroundColor: theme.primary,
-      opacity: 0.15,
-    },
-    blob2: {
-      position: "absolute",
-      width: 300,
-      height: 300,
-      borderRadius: 150,
-      backgroundColor: "#ff007f",
-      opacity: 0.1,
-    },
-    blob3: {
-      position: "absolute",
-      width: 200,
-      height: 200,
-      borderRadius: 100,
-      backgroundColor: "#00f0ff",
-      opacity: 0.1,
-    },
-    blurView: {
-      ...StyleSheet.absoluteFill,
-    },
+
     contentContainer: {
       flex: 1,
       justifyContent: "space-between",

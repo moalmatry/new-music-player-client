@@ -8,32 +8,7 @@ export const createStyles = (theme: AppTheme) =>
       flex: 1,
       backgroundColor: theme.background,
     },
-    backgroundGradient: {
-      ...StyleSheet.absoluteFill,
-    },
-    blurView: {
-      ...StyleSheet.absoluteFill,
-    },
-    blobTop: {
-      position: "absolute",
-      top: -100,
-      right: -50,
-      width: 250,
-      height: 250,
-      borderRadius: 125,
-      backgroundColor: theme.primary,
-      opacity: 0.12,
-    },
-    blobBottom: {
-      position: "absolute",
-      bottom: -100,
-      left: -50,
-      width: 300,
-      height: 300,
-      borderRadius: 150,
-      backgroundColor: "#ff007f",
-      opacity: 0.1,
-    },
+
     contentContainer: {
       flex: 1,
       justifyContent: "center",
