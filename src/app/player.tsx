@@ -15,7 +15,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { BlurView } from "expo-blur";
+import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   SharedValue,
@@ -42,8 +46,11 @@ const formatTime = (seconds: number) => {
   return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
 };
 
+const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
+
 export default function PlayerScreen() {
   const theme = useTheme();
+  const scheme = useColorScheme();
   const styles = createStyles(theme);
   const { pan, animatedStyle } = useExpandFloatingPlayer();
   const { top, bottom } = useSafeAreaInsets();
@@ -147,7 +154,7 @@ export default function PlayerScreen() {
       <Animated.View style={[styles.overlayContainer, animatedStyle]}>
         <LinearGradient
           style={{ flex: 1, paddingHorizontal: screenPadding.horizontal }}
-          colors={[imageColors.background, imageColors.text]}
+          colors={[imageColors.background, theme.background]}
         >
           {/* Top Dismiss Indicator Pill */}
           <View style={[styles.dismissIndicatorContainer, { top: top + 8 }]}>
@@ -165,32 +172,45 @@ export default function PlayerScreen() {
               />
             </View>
 
-            {/* Metadata, Controls & Progress */}
-            <View style={{ flex: 1 }}>
-              <View style={{ marginTop: "auto" }}>
-                <View style={{ height: 60 }}>
-                  <View style={styles.metaRow}>
-                    <View style={styles.trackTitleContainer}>
-                      <MovingText
-                        style={styles.trackTitleText}
-                        animationThreshold={30}
-                      >
-                        {currentTrack.title}
-                      </MovingText>
-                    </View>
-                    <FontAwesome
-                      onPress={toggleFavorite}
-                      name={isFavorite ? "heart" : "heart-o"}
-                      size={24}
-                      color={isFavorite ? theme.primary : theme.icon}
-                    />
-                  </View>
-                  <Text numberOfLines={1} style={styles.trackArtistText}>
-                    {currentTrack.artist || "Unknown Artist"}
-                  </Text>
-                </View>
+            {/* Metadata, Controls & Progress Glass Card */}
+            <View style={styles.glassCard}>
+              {useLiquidGlass ? (
+                <GlassView
+                  glassEffectStyle="clear"
+                  colorScheme={scheme === 'dark' ? 'dark' : 'light'}
+                  style={styles.cardGlassView}
+                />
+              ) : (
+                <BlurView
+                  intensity={60}
+                  tint={scheme === 'dark' ? 'dark' : 'light'}
+                  style={styles.cardBlurView}
+                />
+              )}
 
-                {/* 5. شريط التقدم الديناميكي (Dynamic Progress Bar) */}
+              <View style={styles.cardContent}>
+                {/* Metadata Row */}
+                <View style={styles.metaRow}>
+                  <View style={styles.trackTitleContainer}>
+                    <MovingText
+                      style={styles.trackTitleText}
+                      animationThreshold={30}
+                    >
+                      {currentTrack.title}
+                    </MovingText>
+                  </View>
+                  <FontAwesome
+                    onPress={toggleFavorite}
+                    name={isFavorite ? "heart" : "heart-o"}
+                    size={24}
+                    color={isFavorite ? theme.primary : theme.icon}
+                  />
+                </View>
+                <Text numberOfLines={1} style={styles.trackArtistText}>
+                  {currentTrack.artist || "Unknown Artist"}
+                </Text>
+
+                {/* Progress Bar */}
                 <View style={styles.progressContainer}>
                   <View
                     onStartShouldSetResponder={() => true}
@@ -239,7 +259,6 @@ export default function PlayerScreen() {
                     />
                   </TouchableOpacity>
 
-                  {/* زرار الأغنية السابقة */}
                   <TouchableOpacity
                     onPress={skipToPrevious}
                     style={styles.controlIcon}
@@ -288,15 +307,11 @@ export default function PlayerScreen() {
                     />
                   </TouchableOpacity>
                 </View>
-              </View>
 
-              {/* Volume Bar Placeholder */}
-              <View style={styles.volumeContainer}>
-                <PlayerVolumeBar
-                  style={{
-                    marginTop: "auto",
-                  }}
-                />
+                {/* Volume Bar */}
+                <View style={styles.volumeContainer}>
+                  <PlayerVolumeBar />
+                </View>
               </View>
             </View>
           </View>
