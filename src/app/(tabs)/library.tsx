@@ -1,5 +1,3 @@
-import homeFeed from "@/data/home_feed.json";
-import tracksData from "@/data/tracks.json";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useState } from "react";
@@ -7,6 +5,8 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import TrackList from "@/components/common/TrackList";
+import homeFeed from "@/data/home_feed.json";
+import tracksData from "@/data/tracks.json";
 import { useTheme } from "@/hooks/use-theme";
 import { createStyles } from "@/styles/screens/library.styles";
 

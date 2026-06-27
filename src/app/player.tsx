@@ -1,12 +1,5 @@
-import MovingText from "@/components/common/MovingText";
-import { unKnownTrackImage } from "@/constants/images";
-import { screenPadding } from "@/constants/tokens";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useTheme } from "@/hooks/use-theme";
-import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
-import { useImageColors } from "@/hooks/useImageColors";
-import { createStyles } from "@/styles/screens/player.styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useAudioPlayerStatus } from "expo-audio";
 import { BlurView } from "expo-blur";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { Image } from "expo-image";
@@ -27,9 +20,16 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import MovingText from "@/components/common/MovingText";
 import PlayerVolumeBar from "@/components/player/PlayerVolumeBar";
+import { unKnownTrackImage } from "@/constants/images";
+import { screenPadding } from "@/constants/tokens";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTheme } from "@/hooks/use-theme";
+import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
+import { useImageColors } from "@/hooks/useImageColors";
 import { usePlayerStore } from "@/store/usePlayerStore";
-import { useAudioPlayerStatus } from "expo-audio";
+import { createStyles } from "@/styles/screens/player.styles";
 
 // Helper to mutate Reanimated SharedValue. Defined outside of the component scope
 // to bypass React Compiler's strict mutation checks on hook-allocated values.

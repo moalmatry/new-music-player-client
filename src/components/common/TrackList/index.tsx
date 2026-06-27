@@ -1,8 +1,10 @@
+import { FlatList, FlatListProps, Text, View } from "react-native";
+
 import { screenPadding } from "@/constants/tokens";
 import { useTheme } from "@/hooks/use-theme";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { defaultStyles, utilsStyles } from "@/styles";
-import { FlatList, FlatListProps, Text, View } from "react-native";
+
 import TrackListItem from "../TrackListItem";
 import { createStyles } from "./index.styles";
 

@@ -3,6 +3,7 @@ import { View } from "react-native";
 
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
+
 import { styles } from "./index.styles";
 
 type HintRowProps = {

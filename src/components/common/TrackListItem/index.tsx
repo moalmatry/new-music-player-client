@@ -1,10 +1,12 @@
+import { Entypo } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { Text, TouchableOpacity, View } from "react-native";
+
 import { MiniPlayerEqualizer } from "@/components/player/MiniPlayerEqualizer";
 import { unKnownTrackImage } from "@/constants/images";
 import { useTheme } from "@/hooks/use-theme";
 import { usePlayerStore } from "@/store/usePlayerStore";
-import { Entypo } from "@expo/vector-icons";
-import { Image } from "expo-image";
-import { Text, TouchableOpacity, View } from "react-native";
+
 import { createStyles } from "./index.styles";
 
 interface TrackListItemProps {

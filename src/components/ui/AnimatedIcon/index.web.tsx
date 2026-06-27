@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { View } from "react-native";
 import Animated, { Easing, Keyframe } from "react-native-reanimated";
+
 import classes from "./index.module.css";
 import { styles } from "./index.web.styles";
 

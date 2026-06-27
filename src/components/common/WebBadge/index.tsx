@@ -1,8 +1,10 @@
+import { version } from "expo/package.json";
+import { Image } from "expo-image";
+
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { Image } from "expo-image";
-import { version } from "expo/package.json";
+
 import { styles } from "./index.styles";
 
 export function WebBadge() {

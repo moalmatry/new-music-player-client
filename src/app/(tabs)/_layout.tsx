@@ -1,14 +1,15 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Platform, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
 import * as Haptics from 'expo-haptics';
+import { Tabs } from 'expo-router';
+import React from 'react';
+import { Platform, TouchableOpacity,useWindowDimensions, View } from 'react-native';
+
 import FloatingPlayer from '@/components/player/FloatingPlayer';
 import { fontsSize } from '@/constants/tokens';
-import { useTheme } from '@/hooks/use-theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useTheme } from '@/hooks/use-theme';
 import { createStyles } from '@/styles/screens/layout.styles';
 
 const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();

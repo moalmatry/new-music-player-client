@@ -1,4 +1,5 @@
-import { StyleSheet, Platform } from 'react-native';
+import { Platform,StyleSheet } from 'react-native';
+
 import { AppTheme } from '@/constants/theme';
 
 export const createStyles = (theme: AppTheme) => StyleSheet.create({

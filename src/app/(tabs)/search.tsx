@@ -1,13 +1,14 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  View,
+  FlatList,
   Text,
   TextInput,
-  FlatList,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+
 import searchCategories from '@/data/search_categories.json';
 import { useTheme } from '@/hooks/use-theme';
 import { createStyles } from '@/styles/screens/search.styles';

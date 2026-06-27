@@ -1,7 +1,8 @@
+import { StyleSheet } from "react-native";
+
 import { AppTheme } from "@/constants/theme";
 import { fontsSize } from "@/constants/tokens";
 import { defaultStyles } from "@/styles";
-import { StyleSheet } from "react-native";
 
 export const createStyles = (theme: AppTheme) =>
   StyleSheet.create({

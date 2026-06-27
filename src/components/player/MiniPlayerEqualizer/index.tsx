@@ -1,4 +1,3 @@
-import { useTheme } from "@/hooks/use-theme";
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import Animated, {
@@ -9,6 +8,9 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+
+import { useTheme } from "@/hooks/use-theme";
+
 import { createStyles } from "./index.styles";
 
 interface AnimatedBarProps {

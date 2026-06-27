@@ -1,8 +1,3 @@
-import MovingText from "@/components/common/MovingText";
-import { unKnownTrackImage } from "@/constants/images";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useTheme } from "@/hooks/use-theme";
-import { usePlayerStore } from "@/store/usePlayerStore";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
@@ -15,6 +10,13 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+
+import MovingText from "@/components/common/MovingText";
+import { unKnownTrackImage } from "@/constants/images";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTheme } from "@/hooks/use-theme";
+import { usePlayerStore } from "@/store/usePlayerStore";
+
 import { createStyles } from "./index.styles";
 
 interface FloatingPlayerProps {

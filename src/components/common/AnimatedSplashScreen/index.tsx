@@ -8,6 +8,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
+
 import { styles } from "./index.styles";
 
 export default function AnimatedSplashScreen() {
