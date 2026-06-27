@@ -83,7 +83,7 @@ export default function FloatingPlayer({ style }: FloatingPlayerProps) {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={togglePlayPause} // استخدام الدالة المحدثة
+          onPress={togglePlayPause}
           style={styles.controlButton}
         >
           <Ionicons
