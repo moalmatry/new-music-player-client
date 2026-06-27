@@ -41,11 +41,7 @@ export const createStyles = (theme: AppTheme) =>
       borderColor: theme.textSecondary + "15",
       marginTop: "auto",
       marginBottom: 20,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 10 },
-      shadowOpacity: 0.1,
-      shadowRadius: 12,
-      elevation: 3,
+      boxShadow: "0px 10px 12px rgba(0, 0, 0, 0.1)",
     },
     cardGlassView: {
       ...StyleSheet.absoluteFill,

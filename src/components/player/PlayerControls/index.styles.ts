@@ -22,10 +22,6 @@ export const createStyles = (theme: AppTheme) =>
       backgroundColor: theme.playButtonBackground,
       alignItems: "center",
       justifyContent: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.15,
-      shadowRadius: 4,
-      elevation: 4,
+      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)",
     },
   });

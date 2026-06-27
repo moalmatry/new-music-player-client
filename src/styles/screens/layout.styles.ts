@@ -22,10 +22,7 @@ export const createStyles = (theme: AppTheme) => StyleSheet.create({
     borderColor: theme.textSecondary + '20', // subtle translucent border
     paddingBottom: 0,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.15,
-    shadowRadius: 15,
+    boxShadow: "0px 10px 15px rgba(0, 0, 0, 0.15)",
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
   },
   blurView: {

@@ -11,11 +11,7 @@ export const createStyles = (theme: AppTheme) =>
       padding: 8,
       borderRadius: 50,
       paddingVertical: 10,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.15,
-      shadowRadius: 4,
-      elevation: 5,
+      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)",
       borderWidth: 1,
       borderColor: theme.textSecondary + "20", // subtle translucent border
       overflow: "hidden",
