@@ -1,11 +1,11 @@
-import { MiniPlayerEqualizer } from "@/components/player/MiniPlayerEqualizer/MiniPlayerEqualizer";
+import { MiniPlayerEqualizer } from "@/components/player/MiniPlayerEqualizer";
 import { unKnownTrackImage } from "@/constants/images";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { Entypo } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "@/hooks/use-theme";
-import { createStyles } from "./TrackListItem.styles";
+import { createStyles } from "./index.styles";
 
 interface TrackListItemProps {
   track: Track;

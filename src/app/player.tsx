@@ -1,25 +1,24 @@
-import { screenPadding } from "@/constants/tokens";
-import { useTheme } from "@/hooks/use-theme";
-import { createStyles } from "@/styles/screens/player.styles";
-// 1. استدعاء الـ Store الصحيح اللي بنيناه
 import MovingText from "@/components/common/MovingText";
 import { unKnownTrackImage } from "@/constants/images";
+import { screenPadding } from "@/constants/tokens";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTheme } from "@/hooks/use-theme";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
+import { createStyles } from "@/styles/screens/player.styles";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   GestureResponderEvent,
+  Platform,
   Text,
   TouchableOpacity,
   View,
-  Platform,
 } from "react-native";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { BlurView } from "expo-blur";
-import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   SharedValue,
@@ -28,7 +27,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import PlayerVolumeBar from "@/components/PlayerVolumeBar";
+import PlayerVolumeBar from "@/components/player/PlayerVolumeBar";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { useAudioPlayerStatus } from "expo-audio";
 
@@ -46,7 +45,7 @@ const formatTime = (seconds: number) => {
   return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
 };
 
-const useLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
+const useLiquidGlass = Platform.OS === "ios" && isGlassEffectAPIAvailable();
 
 export default function PlayerScreen() {
   const theme = useTheme();
@@ -177,13 +176,13 @@ export default function PlayerScreen() {
               {useLiquidGlass ? (
                 <GlassView
                   glassEffectStyle="clear"
-                  colorScheme={scheme === 'dark' ? 'dark' : 'light'}
+                  colorScheme={scheme === "dark" ? "dark" : "light"}
                   style={styles.cardGlassView}
                 />
               ) : (
                 <BlurView
                   intensity={60}
-                  tint={scheme === 'dark' ? 'dark' : 'light'}
+                  tint={scheme === "dark" ? "dark" : "light"}
                   style={styles.cardBlurView}
                 />
               )}

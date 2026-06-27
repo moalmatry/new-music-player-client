@@ -1,9 +1,9 @@
 import { version } from 'expo/package.json';
 import { Image } from 'expo-image';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { ThemedText } from '@/components/themed-text/themed-text';
-import { ThemedView } from '@/components/themed-view/themed-view';
-import { styles } from './web-badge.styles';
+import { ThemedText } from '@/components/ui/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
+import { styles } from './index.styles';
 
 export function WebBadge() {
   const scheme = useColorScheme();

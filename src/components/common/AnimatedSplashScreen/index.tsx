@@ -8,7 +8,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import { styles } from './AnimatedSplashScreen.styles';
+import { styles } from './index.styles';
 
 export default function AnimatedSplashScreen() {
   const [isAnimationFinished, setIsAnimationFinished] = useState(false);

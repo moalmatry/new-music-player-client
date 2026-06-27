@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import TrackList from "@/components/common/TrackList/TrackList";
+import TrackList from "@/components/common/TrackList";
 import { useTheme } from "@/hooks/use-theme";
 import { createStyles } from "@/styles/screens/library.styles";
 

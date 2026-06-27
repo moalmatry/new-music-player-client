@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useTheme } from '@/hooks/use-theme';
-import { createStyles } from './MiniPlayerEqualizer.styles';
+import { createStyles } from './index.styles';
 
 interface AnimatedBarProps {
   isPlaying: boolean;

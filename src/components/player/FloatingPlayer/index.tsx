@@ -9,7 +9,7 @@ import { BlurView } from "expo-blur";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { useTheme } from "@/hooks/use-theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { createStyles } from "./FloatingPlayer.styles";
+import { createStyles } from "./index.styles";
 
 interface FloatingPlayerProps {
   style?: StyleProp<ViewStyle>;

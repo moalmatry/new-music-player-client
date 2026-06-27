@@ -2,10 +2,10 @@ import { SymbolView } from 'expo-symbols';
 import { PropsWithChildren, useState } from 'react';
 import { Pressable } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { ThemedText } from '@/components/themed-text/themed-text';
-import { ThemedView } from '@/components/themed-view/themed-view';
+import { ThemedText } from '@/components/ui/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
 import { useTheme } from '@/hooks/use-theme';
-import { styles } from './collapsible.styles';
+import { styles } from './index.styles';
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);

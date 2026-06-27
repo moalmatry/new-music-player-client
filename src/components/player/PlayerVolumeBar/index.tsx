@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { SharedValue, useSharedValue } from "react-native-reanimated";
-import CustomProgressBar from "../CustomProgressBar";
+import CustomProgressBar from "../../ui/CustomProgressBar";
 import { useTheme } from "@/hooks/use-theme";
 
 export interface PlayerVolumeBarProps {
