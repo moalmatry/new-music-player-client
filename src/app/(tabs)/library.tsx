@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useNavigation, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,6 +10,7 @@ import TrackList from "@/components/common/TrackList";
 import homeFeed from "@/data/home_feed.json";
 import tracksData from "@/data/tracks.json";
 import { useTheme } from "@/hooks/use-theme";
+import { getOfflineTracks } from "@/services/database";
 import { useAuthStore } from "@/store/useAuthStore";
 import { createStyles } from "@/styles/screens/library.styles";
 
@@ -17,6 +18,7 @@ export default function LibraryScreen() {
   const theme = useTheme();
   const styles = createStyles(theme);
   const router = useRouter();
+  const navigation = useNavigation();
   const signOut = useAuthStore((state) => state.signOut);
 
   const handleSignOut = () => {
@@ -25,9 +27,30 @@ export default function LibraryScreen() {
   };
 
   const [activeFilter, setActiveFilter] = useState<
-    "playlists" | "songs" | "artists"
+    "playlists" | "songs" | "artists" | "downloads"
   >("playlists");
+  const [offlineTracks, setOfflineTracks] = useState<Track[]>([]);
   const playlists = homeFeed.madeForYou;
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadTracks = () => {
+      const tracks = getOfflineTracks();
+      if (isMounted) {
+        setOfflineTracks(tracks);
+      }
+    };
+
+    const unsubscribe = navigation.addListener("focus", loadTracks);
+
+    // Defer local state check to avoid synchronous cascading renders warning
+    Promise.resolve().then(loadTracks);
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
+  }, [navigation, activeFilter]);
 
   const renderPlaylistRow = ({ item }: { item: (typeof playlists)[0] }) => (
     <TouchableOpacity style={styles.playlistRow} activeOpacity={0.7}>
@@ -100,6 +123,24 @@ export default function LibraryScreen() {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => setActiveFilter("downloads")}
+            style={
+              activeFilter === "downloads"
+                ? styles.filterChipActive
+                : styles.filterChip
+            }
+          >
+            <Text
+              style={
+                activeFilter === "downloads"
+                  ? styles.filterChipTextActive
+                  : styles.filterChipText
+              }
+            >
+              Downloads
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => setActiveFilter("artists")}
             style={
               activeFilter === "artists"
@@ -130,6 +171,17 @@ export default function LibraryScreen() {
         )}
 
         {activeFilter === "songs" && <TrackList list={tracksData} />}
+
+        {activeFilter === "downloads" && (
+          <TrackList
+            list={offlineTracks}
+            ListEmptyComponent={
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No downloaded songs yet.</Text>
+              </View>
+            }
+          />
+        )}
 
         {activeFilter === "artists" && (
           <View style={styles.emptyContainer}>
