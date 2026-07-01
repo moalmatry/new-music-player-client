@@ -1,6 +1,7 @@
 import { BlurView } from "expo-blur";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
+import React, { useEffect, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
@@ -17,6 +18,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useTheme } from "@/hooks/use-theme";
 import { useExpandFloatingPlayer } from "@/hooks/useExpandFloatingPlayer";
 import { useImageColors } from "@/hooks/useImageColors";
+import { getOfflineTracks } from "@/services/database";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { createStyles } from "@/styles/screens/player.styles";
 
@@ -30,6 +32,18 @@ export default function PlayerScreen() {
   const { top, bottom } = useSafeAreaInsets();
 
   const currentTrack = usePlayerStore((state) => state.currentTrack);
+  const [isDownloaded, setIsDownloaded] = useState(false);
+
+  useEffect(() => {
+    if (!currentTrack) return;
+    const checkOffline = () => {
+      const offlineTracks = getOfflineTracks();
+      setIsDownloaded(offlineTracks.some((t) => t.id === currentTrack.id));
+    };
+    checkOffline();
+    const interval = setInterval(checkOffline, 1000);
+    return () => clearInterval(interval);
+  }, [currentTrack]);
 
   const { imageColors } = useImageColors(
     currentTrack?.artwork || unKnownTrackImage,
@@ -78,8 +92,8 @@ export default function PlayerScreen() {
               <View style={styles.cardContent}>
                 {/* Metadata */}
                 <PlayerMetadata
-                  title={currentTrack.title}
-                  artist={currentTrack.artist}
+                  track={currentTrack}
+                  isDownloaded={isDownloaded}
                 />
 
                 {/* Progress Bar */}
