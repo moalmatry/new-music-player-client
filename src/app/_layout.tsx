@@ -1,10 +1,12 @@
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
 
 import AnimatedSplashScreen from "@/components/common/AnimatedSplashScreen";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { initDB } from "@/services/database";
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -13,6 +15,10 @@ configureReanimatedLogger({
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    initDB();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

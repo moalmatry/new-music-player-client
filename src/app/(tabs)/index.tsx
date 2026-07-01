@@ -1,5 +1,4 @@
 import { Image } from "expo-image";
-import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -39,7 +38,7 @@ export default function HomeScreen() {
       {/* Reusable Premium Background */}
       <AmbientBackground />
 
-      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+      <SafeAreaView style={{ flex: 1 }} edges={["top", "bottom"]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
@@ -69,7 +68,10 @@ export default function HomeScreen() {
                 onPress={() => handlePlayRecentlyPlayed(item)}
                 style={styles.recentCard}
               >
-                <Image source={{ uri: item.artwork }} style={styles.recentArt} />
+                <Image
+                  source={{ uri: item.artwork }}
+                  style={styles.recentArt}
+                />
                 <View style={styles.recentTextContainer}>
                   <Text numberOfLines={2} style={styles.recentTitle}>
                     {item.title}
@@ -92,7 +94,10 @@ export default function HomeScreen() {
                 activeOpacity={0.8}
                 style={styles.madeForCard}
               >
-                <Image source={{ uri: item.artwork }} style={styles.madeForArt} />
+                <Image
+                  source={{ uri: item.artwork }}
+                  style={styles.madeForArt}
+                />
                 <Text numberOfLines={1} style={styles.madeForTitle}>
                   {item.title}
                 </Text>

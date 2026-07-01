@@ -1,7 +1,7 @@
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import Animated, {
   Easing,
@@ -124,7 +124,8 @@ export default function WelcomeScreen() {
             <View style={styles.cardContent}>
               <Text style={styles.cardTitle}>Feel The Rhythm</Text>
               <Text style={styles.cardSubtitle}>
-                Join millions of music lovers and curate your perfect soundtracks.
+                Join millions of music lovers and curate your perfect
+                soundtracks.
               </Text>
 
               <View style={styles.buttonContainer}>
